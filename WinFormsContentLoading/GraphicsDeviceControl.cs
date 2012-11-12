@@ -27,7 +27,7 @@ namespace WinFormsContentLoading
     /// a Windows Form. Derived classes can override the Initialize and Draw
     /// methods to add their own drawing code.
     /// </summary>
-    abstract public class GraphicsDeviceControl : Control
+    public class GraphicsDeviceControl : Control
     {
         #region Fields
 
@@ -289,13 +289,17 @@ namespace WinFormsContentLoading
         /// <summary>
         /// Derived classes override this to initialize their drawing code.
         /// </summary>
-        protected abstract void Initialize();
+        protected virtual void Initialize()
+        {
+        }
 
 
         /// <summary>
         /// Derived classes override this to draw themselves using the GraphicsDevice.
         /// </summary>
-        protected abstract void Draw();
+        protected virtual void Draw()
+        {
+        }
 
 
         #endregion

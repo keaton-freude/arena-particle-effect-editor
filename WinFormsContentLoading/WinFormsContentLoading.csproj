@@ -68,6 +68,7 @@
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -75,6 +76,12 @@
   <ItemGroup>
     <Compile Include="ContentBuilder.cs" />
     <Compile Include="ErrorLogger.cs" />
+    <Compile Include="AddParticleDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddParticleDlg.Designer.cs">
+      <DependentUpon>AddParticleDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,8 +95,15 @@
     <Compile Include="ModelViewerControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="OneShotParticleEffect.cs" />
+    <Compile Include="Particle.cs" />
+    <Compile Include="ParticleEffect.cs" />
+    <Compile Include="ParticleEngine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddParticleDlg.resx">
+      <DependentUpon>AddParticleDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>

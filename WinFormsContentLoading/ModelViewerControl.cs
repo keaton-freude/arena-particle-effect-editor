@@ -55,8 +55,16 @@ namespace WinFormsContentLoading
             set;
         }
 
+        public Texture2D EmitterMarker
+        {
+            get;
+            set;
+        }
+
         // Timer controls the rotation speed.
         Stopwatch timer;
+
+        Stopwatch render_control;
 
 
         /// <summary>
@@ -64,9 +72,13 @@ namespace WinFormsContentLoading
         /// </summary>
         protected override void Initialize()
         {
+            EmitterLocation = new Vector2(Width / 2, Height / 2);
             // Start the animation timer.
             timer = Stopwatch.StartNew();
+
+            render_control = Stopwatch.StartNew();
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            
             // Hook the idle event to constantly redraw our animation.
             Application.Idle += delegate { Invalidate(); };
         }
@@ -75,20 +87,43 @@ namespace WinFormsContentLoading
         /// <summary>
         /// Draws the control.
         /// </summary>
+        /// 
+
+        int frames = 0;
+        long current_time = 0;
+        String FPS = "FPS: ";
         protected override void Draw()
         {
             // Clear to the default control background color.
-
+            
             GraphicsDevice.Clear(Color.Black);
 
+            /* We will always draw the current Emitter Location */
+
+            spriteBatch.Begin();
+            if (EmitterMarker != null)
+                spriteBatch.Draw(EmitterMarker, new Vector2(EmitterLocation.X - EmitterMarker.Width / 4, EmitterLocation.Y - EmitterMarker.Height / 4), null, Color.White * .2f, 0.0f, Vector2.Zero, .5f, SpriteEffects.None, 1.0f );
+            MainForm.fpsLabel.Text = FPS;
             if (Rendering)
             {
-                spriteBatch.Begin();
                 
-
-                spriteBatch.End();
+                ParticleEngine.Instance.Draw(spriteBatch);
             }
-            
+
+            spriteBatch.End();
+            if (timer.ElapsedMilliseconds >= 17)
+            {
+                frames++;
+                current_time += timer.ElapsedMilliseconds;
+                if (current_time >= 1000)
+                {
+                    current_time -= 1000;
+                    FPS = String.Format("FPS: {0}", frames);
+                    frames = 0;
+                }
+                ParticleEngine.Instance.Update();
+                timer.Restart();
+            }
         }
 
 
