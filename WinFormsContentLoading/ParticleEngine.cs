@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace WinFormsContentLoading
 {
@@ -31,11 +32,11 @@ namespace WinFormsContentLoading
             /* not sure if needed */
         }
 
-        public void Update()
+        public void Update(float dt, Vector2 EmitterLocation)
         {
             foreach (ParticleEffect effect in effects.Values)
             {
-                effect.Update();
+                effect.Update(dt, EmitterLocation);
             }
         }
 

@@ -42,12 +42,19 @@ namespace WinFormsContentLoading
             set;
         }
 
+        /* Currently supported: Additive, Alpha */
+        public String BlendingState
+        {
+            get;
+            set;
+        }
+
         public Particle GenerateNewParticle()
         {
             return null;
         }
 
-        public virtual void Update()
+        public virtual void Update(float dt, Vector2 EmitterLocation)
         {
         }
 

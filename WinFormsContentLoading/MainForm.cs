@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+//using Microsoft.Xna.Framework.Graphics;
 
 using System.Collections.Generic;
 
@@ -105,8 +105,8 @@ namespace WinFormsContentLoading
             //contentManager.Unload();
 
             // Tell the ContentBuilder what to build.
-            contentBuilder.Clear();
-            contentBuilder.Add(contentPath, "Texture", null, "TextureProcessor");
+            //contentBuilder.Clear();
+            contentBuilder.Add(contentPath, fileName.Split('.')[0], null, "TextureProcessor");
 
             // Build this new model data.
             string buildError = contentBuilder.Build();
@@ -116,7 +116,7 @@ namespace WinFormsContentLoading
                 // If the build succeeded, use the ContentManager to
                 // load the temporary .xnb file that we just created.
                 Cursor = Cursors.Arrow;
-                return contentManager.Load<Texture2D>("Texture");
+                return contentManager.Load<Texture2D>(fileName.Split('.')[0]);
                 
                 
             }
@@ -192,12 +192,14 @@ namespace WinFormsContentLoading
             if (rdoOneShot.Checked)
             {
                 groupBoxOneShot.Visible = true;
+                groupBoxOneShot.BringToFront();
                 groupBoxContinuous.Visible = false;
             }
             else
             {
                 groupBoxContinuous.Visible = true;
                 groupBoxOneShot.Visible = false;
+                groupBoxContinuous.BringToFront();
             }
         }
 
@@ -236,7 +238,14 @@ namespace WinFormsContentLoading
                 OneShotParticleEffect one_shot_effect = new OneShotParticleEffect(textures);
                 one_shot_effect.EmitterLocation = modelViewerControl.EmitterLocation;
                 one_shot_effect.MasterParticles = masterParticles;
-
+                if (rdoAlphaBlending.Checked)
+                {
+                    one_shot_effect.BlendingState = "Alpha";
+                }
+                else if (rdoAdditiveBlending.Checked)
+                {
+                    one_shot_effect.BlendingState = "Additive";
+                }
                 one_shot_effect.TexturePolling = TexturePolling;
                 one_shot_effect.NumberOfParticles = Convert.ToInt32(txtNumParticles.Text);
 
@@ -246,11 +255,60 @@ namespace WinFormsContentLoading
                 ((OneShotParticleEffect)ParticleEngine.Instance.effects["Test"]).Fire();
                 modelViewerControl.Rendering = true;
             }
+            else if (rdoContinuous.Checked)
+            {
+                ContinuousParticleEffect continuous_effect = new ContinuousParticleEffect(textures);
+                continuous_effect.EmitterLocation = modelViewerControl.EmitterLocation;
+                continuous_effect.MasterParticles = masterParticles;
+                if (rdoAlphaBlending.Checked)
+                {
+                    continuous_effect.BlendingState = "Alpha";
+                }
+                else
+                    continuous_effect.BlendingState = "Additive";
+                continuous_effect.TexturePolling = TexturePolling;
+                continuous_effect.MaxParticles = Convert.ToInt32(txtMaxParticles.Text);
+                continuous_effect.ParticlesPerUpdate = Convert.ToInt32(txtParticlesPerUpdate.Text);
+                ParticleEngine.Instance.effects.Add("Test", continuous_effect);
+                ((ContinuousParticleEffect)ParticleEngine.Instance.effects["Test"]).Generating = true;
+                modelViewerControl.Rendering = true;
+            }
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (lstParticles.SelectedIndex != -1)
+            {
+                /* Spawn ParticleEditor window with the currently selected */
+                /* particle as the argument, allows user to edit */
+
+                AddParticleDlg dlg = new AddParticleDlg((Particle)lstParticles.Items[lstParticles.SelectedIndex]);
+                dlg.ShowDialog();
+
+                if (dlg.EditedParticle)
+                    lstParticles.Items[lstParticles.SelectedIndex] = dlg.Particle;
+            }
+        }
+
+        private void modelViewerControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (chkEmitterMouseFollow.Checked)
+            {
+                modelViewerControl.EmitterLocation = new Vector2(e.X, e.Y);
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (lstParticles.SelectedIndex != -1)
+            {
+                lstParticles.Items.RemoveAt(lstParticles.SelectedIndex);
+            }
         }
     }
 }

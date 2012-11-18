@@ -7,60 +7,35 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WinFormsContentLoading
 {
-    public class OneShotParticleEffect: ParticleEffect
+    public class ContinuousParticleEffect: ParticleEffect
     {
-        /* This class provides a friendy way of creating one shot particles */
-
-        public String EffectType
+        public int ParticlesPerUpdate
         {
             get;
             set;
         }
 
-        /* If EffectType == Circle, then we use this */
-        public float CircleRadius
-        {
-            get;
-            set;
-        }
-
-        public int NumberOfParticles
-        {
-            get;
-            set;
-        }
-
-        public Int32 Iterations
-        {
-            get;
-            set;
-        }
-
-
-
-        public OneShotParticleEffect(List<Texture2D> textures) :
+        public ContinuousParticleEffect(List<Texture2D> textures) :
             base(textures)
         {
-
         }
 
-        public void Fire()
+        public bool Generating
         {
-            /* Create the particle Effect according to the rules given */
-            /* Hard coding to a circle for testing. TODO: Make generic */
-            int n = NumberOfParticles;
-
-            for (int x = 0; x < n; ++x)
-            {
-                particles.Add(GenerateNewParticle(x, n, CircleRadius, EmitterLocation.X, EmitterLocation.Y));
-            }
-
+            get;
+            set;
         }
 
-        public Particle GenerateNewParticle(int x, int n, float r, float off_x, float off_y)
+        public int MaxParticles
+        {
+            get;
+            set;
+        }
+
+        public Particle GenerateNewParticle(int x, int y)
         {
             Texture2D texture = null;
-            int ParticleID = -1; 
+            int ParticleID = -1;
             /* if we're doing random texture polling */
             if (TexturePolling == "Random")
                 ParticleID = random.Next(textures.Count);
@@ -70,16 +45,21 @@ namespace WinFormsContentLoading
 
             Particle BaseParticle = MasterParticles[ParticleID];
 
-            float xp = (float)Math.Cos(Math.PI * 2 / n * x) * r;
-            float yp = (float)Math.Sin(Math.PI * 2 / n * x) * r;
-            Vector2 position = new Vector2(xp + off_x, yp + off_y);
+            //float xp = (float)Math.Cos(Math.PI * 2 / n * x) * r;
+            //float yp = (float)Math.Sin(Math.PI * 2 / n * x) * r;
+            Vector2 position = new Vector2(x, y);
 
             /* We will build the rest of this particle off of our base particle */
 
             Particle ParticleToReturn = new Particle();
             ParticleToReturn.Texture = textures[ParticleID];
+
+            
+            position.X += RandomFromRange(BaseParticle.OffsetMinimum.X, BaseParticle.OffsetMaximum.X, random);
+            position.Y += RandomFromRange(BaseParticle.OffsetMinimum.Y, BaseParticle.OffsetMaximum.Y, random);
             ParticleToReturn.Location = position;
             
+
             /* If we're doing static velocity copy it over, otherwise we need to computer */
             Vector2 velocity = Vector2.Zero;
 
@@ -131,7 +111,7 @@ namespace WinFormsContentLoading
             }
 
             ParticleToReturn.Offset = new Vector2(RandomFromRange(BaseParticle.OffsetMinimum.X, BaseParticle.OffsetMaximum.X, random), RandomFromRange(BaseParticle.OffsetMinimum.Y, BaseParticle.OffsetMaximum.Y, random));
-            
+
 
             float scale = BaseParticle.Scale;
 
@@ -150,35 +130,57 @@ namespace WinFormsContentLoading
             ParticleToReturn.Velocity = velocity;
 
             return ParticleToReturn;
-
-
-            //return null;
         }
 
         public override void Update(float dt, Vector2 EmitterLocation)
         {
-            for (int particle = 0; particle < particles.Count; particle++)
+            if (Generating)
             {
-                particles[particle].Update(dt);
-                if (particles[particle].TTL <= 0)
+                for (int particle = 0; particle < particles.Count; particle++)
                 {
-                    //particles[particles.IndexOf(particles[particle])] = GenerateNewParticle(1, 1, 1, EmitterLocation.X, EmitterLocation.Y);
-                    particles.RemoveAt(particle);
+                    particles[particle].Update(dt);
+                    if (particles[particle].TTL <= 0)
+                    {
+                        //particles.RemoveAt(particle);
+
+                        /* Optimization, we can guarantee that for every removed particle, we are
+                         * less than MaxParticles. Therefore, isntead of removing, just replace that particle's position
+                         * with a new fresh one
+                         */
+
+                        particles[particles.IndexOf(particles[particle])] = GenerateNewParticle((int)EmitterLocation.X, (int)EmitterLocation.Y);
+
+                    }
                 }
+
+
+                /* Generate new Particles for this frame */
+                /* This is more of a "wind-up" function, shouldn't be called once
+                 * we're at max capacity */
+                for (int i = 0; i < ParticlesPerUpdate; ++i)
+                {
+                    if (particles.Count < MaxParticles)
+                        particles.Add(GenerateNewParticle((int)EmitterLocation.X, (int)EmitterLocation.Y));
+                }
+
+
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (BlendingState == "Alpha")
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            else if (BlendingState == "Additive")
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            for (int index = 0; index < particles.Count; index++)
+            if (Generating)
             {
-                particles[index].Draw(spriteBatch);
+                if (BlendingState == "Alpha")
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                else if (BlendingState == "Additive")
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                for (int index = 0; index < particles.Count; index++)
+                {
+                    particles[index].Draw(spriteBatch);
+                }
+                spriteBatch.End();
             }
-            spriteBatch.End();
         }
     }
 }

@@ -1,0 +1,6 @@
+﻿Idea: Smoke Effect:
+Add 2 options
+1) Even distribution for applied acceleration vectors for particles
+2) Clustered distribution for applied acceleration vectors for particles
+
+CREDIT: Rachel Battey

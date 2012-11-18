@@ -33,14 +33,29 @@ namespace WinFormsContentLoading
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TabControl = new System.Windows.Forms.TabPage();
+            this.chkEmitterMouseFollow = new System.Windows.Forms.CheckBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.rdoRandomPolling = new System.Windows.Forms.RadioButton();
+            this.rdoRoundRobin = new System.Windows.Forms.RadioButton();
             this.btnAddParticle = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lstParticles = new System.Windows.Forms.ListBox();
+            this.btnTest = new System.Windows.Forms.Button();
+            this.groupBoxLocation = new System.Windows.Forms.GroupBox();
+            this.rdoAdditiveBlending = new System.Windows.Forms.RadioButton();
+            this.rdoAlphaBlending = new System.Windows.Forms.RadioButton();
             this.groupBoxContinuous = new System.Windows.Forms.GroupBox();
+            this.txtMaxParticles = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.lblNumberSpawned = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtParticlesPerUpdate = new System.Windows.Forms.TextBox();
             this.groupBoxOneShot = new System.Windows.Forms.GroupBox();
+            this.txtNumParticles = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtRadius = new System.Windows.Forms.TextBox();
+            this.lblRadius = new System.Windows.Forms.Label();
             this.txtIterations = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.radioButton5 = new System.Windows.Forms.RadioButton();
@@ -51,16 +66,8 @@ namespace WinFormsContentLoading
             this.rdoOneShot = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.btnSetEmitter = new System.Windows.Forms.Button();
-            this.groupBoxLocation = new System.Windows.Forms.GroupBox();
-            this.btnTest = new System.Windows.Forms.Button();
-            this.lblRadius = new System.Windows.Forms.Label();
-            this.txtRadius = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtNumParticles = new System.Windows.Forms.TextBox();
-            this.rdoRoundRobin = new System.Windows.Forms.RadioButton();
-            this.rdoRandomPolling = new System.Windows.Forms.RadioButton();
-            this.modelViewerControl = new WinFormsContentLoading.ModelViewerControl();
             this.lblFPSREAL = new System.Windows.Forms.Label();
+            this.modelViewerControl = new WinFormsContentLoading.ModelViewerControl();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.TabControl.SuspendLayout();
@@ -68,6 +75,7 @@ namespace WinFormsContentLoading
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBoxLocation.SuspendLayout();
             this.groupBoxContinuous.SuspendLayout();
             this.groupBoxOneShot.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -113,6 +121,7 @@ namespace WinFormsContentLoading
             // TabControl
             // 
             this.TabControl.BackColor = System.Drawing.Color.Silver;
+            this.TabControl.Controls.Add(this.chkEmitterMouseFollow);
             this.TabControl.Controls.Add(this.splitContainer1);
             this.TabControl.Controls.Add(this.btnSetEmitter);
             this.TabControl.Location = new System.Drawing.Point(4, 22);
@@ -121,6 +130,16 @@ namespace WinFormsContentLoading
             this.TabControl.Size = new System.Drawing.Size(358, 649);
             this.TabControl.TabIndex = 0;
             this.TabControl.Text = "tabPage1";
+            // 
+            // chkEmitterMouseFollow
+            // 
+            this.chkEmitterMouseFollow.AutoSize = true;
+            this.chkEmitterMouseFollow.Location = new System.Drawing.Point(111, 17);
+            this.chkEmitterMouseFollow.Name = "chkEmitterMouseFollow";
+            this.chkEmitterMouseFollow.Size = new System.Drawing.Size(131, 17);
+            this.chkEmitterMouseFollow.TabIndex = 3;
+            this.chkEmitterMouseFollow.Text = "Emitter Follows Mouse";
+            this.chkEmitterMouseFollow.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
@@ -132,6 +151,8 @@ namespace WinFormsContentLoading
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
+            this.splitContainer1.Panel1.Controls.Add(this.btnRemove);
+            this.splitContainer1.Panel1.Controls.Add(this.btnEdit);
             this.splitContainer1.Panel1.Controls.Add(this.rdoRandomPolling);
             this.splitContainer1.Panel1.Controls.Add(this.rdoRoundRobin);
             this.splitContainer1.Panel1.Controls.Add(this.btnAddParticle);
@@ -150,6 +171,48 @@ namespace WinFormsContentLoading
             this.splitContainer1.Size = new System.Drawing.Size(346, 595);
             this.splitContainer1.SplitterDistance = 139;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(169, 113);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.TabIndex = 6;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(88, 113);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 5;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // rdoRandomPolling
+            // 
+            this.rdoRandomPolling.AutoSize = true;
+            this.rdoRandomPolling.Location = new System.Drawing.Point(190, 47);
+            this.rdoRandomPolling.Name = "rdoRandomPolling";
+            this.rdoRandomPolling.Size = new System.Drawing.Size(138, 17);
+            this.rdoRandomPolling.TabIndex = 4;
+            this.rdoRandomPolling.Text = "Random Texture Polling";
+            this.rdoRandomPolling.UseVisualStyleBackColor = true;
+            // 
+            // rdoRoundRobin
+            // 
+            this.rdoRoundRobin.AutoSize = true;
+            this.rdoRoundRobin.Checked = true;
+            this.rdoRoundRobin.Location = new System.Drawing.Point(190, 24);
+            this.rdoRoundRobin.Name = "rdoRoundRobin";
+            this.rdoRoundRobin.Size = new System.Drawing.Size(88, 17);
+            this.rdoRoundRobin.TabIndex = 3;
+            this.rdoRoundRobin.TabStop = true;
+            this.rdoRoundRobin.Text = "Round Robin";
+            this.rdoRoundRobin.UseVisualStyleBackColor = true;
             // 
             // btnAddParticle
             // 
@@ -178,11 +241,56 @@ namespace WinFormsContentLoading
             this.lstParticles.Size = new System.Drawing.Size(181, 82);
             this.lstParticles.TabIndex = 0;
             // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(3, 424);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.TabIndex = 5;
+            this.btnTest.Text = "Test!";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // groupBoxLocation
+            // 
+            this.groupBoxLocation.Controls.Add(this.rdoAdditiveBlending);
+            this.groupBoxLocation.Controls.Add(this.rdoAlphaBlending);
+            this.groupBoxLocation.Location = new System.Drawing.Point(10, 344);
+            this.groupBoxLocation.Name = "groupBoxLocation";
+            this.groupBoxLocation.Size = new System.Drawing.Size(319, 63);
+            this.groupBoxLocation.TabIndex = 4;
+            this.groupBoxLocation.TabStop = false;
+            this.groupBoxLocation.Text = "Render Options";
+            // 
+            // rdoAdditiveBlending
+            // 
+            this.rdoAdditiveBlending.AutoSize = true;
+            this.rdoAdditiveBlending.Location = new System.Drawing.Point(117, 19);
+            this.rdoAdditiveBlending.Name = "rdoAdditiveBlending";
+            this.rdoAdditiveBlending.Size = new System.Drawing.Size(107, 17);
+            this.rdoAdditiveBlending.TabIndex = 1;
+            this.rdoAdditiveBlending.TabStop = true;
+            this.rdoAdditiveBlending.Text = "Additive Blending";
+            this.rdoAdditiveBlending.UseVisualStyleBackColor = true;
+            // 
+            // rdoAlphaBlending
+            // 
+            this.rdoAlphaBlending.AutoSize = true;
+            this.rdoAlphaBlending.Location = new System.Drawing.Point(15, 19);
+            this.rdoAlphaBlending.Name = "rdoAlphaBlending";
+            this.rdoAlphaBlending.Size = new System.Drawing.Size(96, 17);
+            this.rdoAlphaBlending.TabIndex = 0;
+            this.rdoAlphaBlending.TabStop = true;
+            this.rdoAlphaBlending.Text = "Alpha Blending";
+            this.rdoAlphaBlending.UseVisualStyleBackColor = true;
+            // 
             // groupBoxContinuous
             // 
+            this.groupBoxContinuous.Controls.Add(this.txtMaxParticles);
+            this.groupBoxContinuous.Controls.Add(this.label5);
             this.groupBoxContinuous.Controls.Add(this.lblNumberSpawned);
-            this.groupBoxContinuous.Controls.Add(this.textBox1);
-            this.groupBoxContinuous.Location = new System.Drawing.Point(3, 307);
+            this.groupBoxContinuous.Controls.Add(this.txtParticlesPerUpdate);
+            this.groupBoxContinuous.Location = new System.Drawing.Point(10, 238);
             this.groupBoxContinuous.Name = "groupBoxContinuous";
             this.groupBoxContinuous.Size = new System.Drawing.Size(319, 100);
             this.groupBoxContinuous.TabIndex = 3;
@@ -190,21 +298,37 @@ namespace WinFormsContentLoading
             this.groupBoxContinuous.Text = "Continuous Rules";
             this.groupBoxContinuous.Visible = false;
             // 
+            // txtMaxParticles
+            // 
+            this.txtMaxParticles.Location = new System.Drawing.Point(132, 36);
+            this.txtMaxParticles.Name = "txtMaxParticles";
+            this.txtMaxParticles.Size = new System.Drawing.Size(100, 20);
+            this.txtMaxParticles.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(129, 20);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(70, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Max Particles";
+            // 
             // lblNumberSpawned
             // 
             this.lblNumberSpawned.AutoSize = true;
             this.lblNumberSpawned.Location = new System.Drawing.Point(6, 20);
             this.lblNumberSpawned.Name = "lblNumberSpawned";
-            this.lblNumberSpawned.Size = new System.Drawing.Size(94, 13);
+            this.lblNumberSpawned.Size = new System.Drawing.Size(103, 13);
             this.lblNumberSpawned.TabIndex = 1;
-            this.lblNumberSpawned.Text = "Amount Per Frame";
+            this.lblNumberSpawned.Text = "Particles per Update";
             // 
-            // textBox1
+            // txtParticlesPerUpdate
             // 
-            this.textBox1.Location = new System.Drawing.Point(7, 36);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 0;
+            this.txtParticlesPerUpdate.Location = new System.Drawing.Point(7, 36);
+            this.txtParticlesPerUpdate.Name = "txtParticlesPerUpdate";
+            this.txtParticlesPerUpdate.Size = new System.Drawing.Size(100, 20);
+            this.txtParticlesPerUpdate.TabIndex = 0;
             // 
             // groupBoxOneShot
             // 
@@ -224,6 +348,38 @@ namespace WinFormsContentLoading
             this.groupBoxOneShot.TabStop = false;
             this.groupBoxOneShot.Text = "One Shot Rules";
             this.groupBoxOneShot.Visible = false;
+            // 
+            // txtNumParticles
+            // 
+            this.txtNumParticles.Location = new System.Drawing.Point(125, 106);
+            this.txtNumParticles.Name = "txtNumParticles";
+            this.txtNumParticles.Size = new System.Drawing.Size(100, 20);
+            this.txtNumParticles.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(122, 90);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(99, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Number of Particles";
+            // 
+            // txtRadius
+            // 
+            this.txtRadius.Location = new System.Drawing.Point(10, 67);
+            this.txtRadius.Name = "txtRadius";
+            this.txtRadius.Size = new System.Drawing.Size(47, 20);
+            this.txtRadius.TabIndex = 6;
+            // 
+            // lblRadius
+            // 
+            this.lblRadius.AutoSize = true;
+            this.lblRadius.Location = new System.Drawing.Point(8, 50);
+            this.lblRadius.Name = "lblRadius";
+            this.lblRadius.Size = new System.Drawing.Size(40, 13);
+            this.lblRadius.TabIndex = 5;
+            this.lblRadius.Text = "Radius";
             // 
             // txtIterations
             // 
@@ -328,78 +484,17 @@ namespace WinFormsContentLoading
             this.btnSetEmitter.UseVisualStyleBackColor = true;
             this.btnSetEmitter.Click += new System.EventHandler(this.button1_Click);
             // 
-            // groupBoxLocation
+            // lblFPSREAL
             // 
-            this.groupBoxLocation.Location = new System.Drawing.Point(10, 238);
-            this.groupBoxLocation.Name = "groupBoxLocation";
-            this.groupBoxLocation.Size = new System.Drawing.Size(319, 63);
-            this.groupBoxLocation.TabIndex = 4;
-            this.groupBoxLocation.TabStop = false;
-            this.groupBoxLocation.Text = "Future Expansion!";
-            // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(3, 424);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
-            this.btnTest.TabIndex = 5;
-            this.btnTest.Text = "Test!";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // lblRadius
-            // 
-            this.lblRadius.AutoSize = true;
-            this.lblRadius.Location = new System.Drawing.Point(8, 50);
-            this.lblRadius.Name = "lblRadius";
-            this.lblRadius.Size = new System.Drawing.Size(40, 13);
-            this.lblRadius.TabIndex = 5;
-            this.lblRadius.Text = "Radius";
-            // 
-            // txtRadius
-            // 
-            this.txtRadius.Location = new System.Drawing.Point(10, 67);
-            this.txtRadius.Name = "txtRadius";
-            this.txtRadius.Size = new System.Drawing.Size(47, 20);
-            this.txtRadius.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(122, 90);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(99, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Number of Particles";
-            // 
-            // txtNumParticles
-            // 
-            this.txtNumParticles.Location = new System.Drawing.Point(125, 106);
-            this.txtNumParticles.Name = "txtNumParticles";
-            this.txtNumParticles.Size = new System.Drawing.Size(100, 20);
-            this.txtNumParticles.TabIndex = 8;
-            // 
-            // rdoRoundRobin
-            // 
-            this.rdoRoundRobin.AutoSize = true;
-            this.rdoRoundRobin.Checked = true;
-            this.rdoRoundRobin.Location = new System.Drawing.Point(190, 24);
-            this.rdoRoundRobin.Name = "rdoRoundRobin";
-            this.rdoRoundRobin.Size = new System.Drawing.Size(88, 17);
-            this.rdoRoundRobin.TabIndex = 3;
-            this.rdoRoundRobin.TabStop = true;
-            this.rdoRoundRobin.Text = "Round Robin";
-            this.rdoRoundRobin.UseVisualStyleBackColor = true;
-            // 
-            // rdoRandomPolling
-            // 
-            this.rdoRandomPolling.AutoSize = true;
-            this.rdoRandomPolling.Location = new System.Drawing.Point(190, 47);
-            this.rdoRandomPolling.Name = "rdoRandomPolling";
-            this.rdoRandomPolling.Size = new System.Drawing.Size(138, 17);
-            this.rdoRandomPolling.TabIndex = 4;
-            this.rdoRandomPolling.Text = "Random Texture Polling";
-            this.rdoRandomPolling.UseVisualStyleBackColor = true;
+            this.lblFPSREAL.AutoSize = true;
+            this.lblFPSREAL.BackColor = System.Drawing.Color.Black;
+            this.lblFPSREAL.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFPSREAL.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblFPSREAL.Location = new System.Drawing.Point(12, 37);
+            this.lblFPSREAL.Name = "lblFPSREAL";
+            this.lblFPSREAL.Size = new System.Drawing.Size(40, 18);
+            this.lblFPSREAL.TabIndex = 3;
+            this.lblFPSREAL.Text = "FPS";
             // 
             // modelViewerControl
             // 
@@ -414,18 +509,7 @@ namespace WinFormsContentLoading
             this.modelViewerControl.Textures = null;
             this.modelViewerControl.Click += new System.EventHandler(this.modelViewerControl_Click);
             this.modelViewerControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.modelViewerControl_MouseClick);
-            // 
-            // lblFPSREAL
-            // 
-            this.lblFPSREAL.AutoSize = true;
-            this.lblFPSREAL.BackColor = System.Drawing.Color.Black;
-            this.lblFPSREAL.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFPSREAL.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblFPSREAL.Location = new System.Drawing.Point(12, 37);
-            this.lblFPSREAL.Name = "lblFPSREAL";
-            this.lblFPSREAL.Size = new System.Drawing.Size(40, 18);
-            this.lblFPSREAL.TabIndex = 3;
-            this.lblFPSREAL.Text = "FPS";
+            this.modelViewerControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.modelViewerControl_MouseMove);
             // 
             // MainForm
             // 
@@ -439,17 +523,20 @@ namespace WinFormsContentLoading
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "WinForms Content Loading";
+            this.Text = "Arena 2D Particle Effect Editor - Alpha";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.TabControl.ResumeLayout(false);
+            this.TabControl.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBoxLocation.ResumeLayout(false);
+            this.groupBoxLocation.PerformLayout();
             this.groupBoxContinuous.ResumeLayout(false);
             this.groupBoxContinuous.PerformLayout();
             this.groupBoxOneShot.ResumeLayout(false);
@@ -476,7 +563,7 @@ namespace WinFormsContentLoading
         private System.Windows.Forms.Button btnAddParticle;
         private System.Windows.Forms.GroupBox groupBoxContinuous;
         private System.Windows.Forms.Label lblNumberSpawned;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtParticlesPerUpdate;
         private System.Windows.Forms.GroupBox groupBoxOneShot;
         private System.Windows.Forms.TextBox txtIterations;
         private System.Windows.Forms.Label label3;
@@ -496,6 +583,13 @@ namespace WinFormsContentLoading
         private System.Windows.Forms.RadioButton rdoRandomPolling;
         private System.Windows.Forms.RadioButton rdoRoundRobin;
         public System.Windows.Forms.Label lblFPSREAL;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.RadioButton rdoAdditiveBlending;
+        private System.Windows.Forms.RadioButton rdoAlphaBlending;
+        private System.Windows.Forms.CheckBox chkEmitterMouseFollow;
+        private System.Windows.Forms.TextBox txtMaxParticles;
+        private System.Windows.Forms.Label label5;
 
     }
 }

@@ -157,7 +157,55 @@ namespace WinFormsContentLoading
             set;
         }
 
-        private Int32 _BaseTTL;
+        public Int32 _BaseTTL;
+        //public Int32 MaxTTL
+        //{
+        //    get;
+        //    set;
+        //}
+
+        public Boolean RangeTTL
+        {
+            get;
+            set;
+        }
+
+        public Vector2 OffsetMinimum
+        {
+            get;
+            set;
+        }
+
+        public Vector2 OffsetMaximum
+        {
+            get;
+            set;
+        }
+
+        public Vector2 Offset
+        {
+            get;
+            set;
+        }
+
+        public Int32 MinTTL
+        {
+            get;
+            set;
+        }
+
+        public Int32 MaxTTL
+        {
+            get;
+            set;
+        }
+
+        public Vector2 SpeedModifier
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Init
@@ -170,18 +218,19 @@ namespace WinFormsContentLoading
         #region Draw/Update
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Location, null, Color, Rotation, Origin, Scale, SpriteEffects.None, 1.0f);
+            float alpha_percent = ((float)TTL / (float)_BaseTTL);
+            spriteBatch.Draw(Texture, Location + Offset, null, Color * alpha_percent, Rotation, Origin, Scale, SpriteEffects.None, 1.0f);
         }
 
-        public void Update()
+        public void Update(float dt)
         {
             TTL--;
-            Velocity += Acceleration;
-            Location += Velocity;
-            Rotation += RotationSpeed;
-            Alpha += AlphaChange;
+            Velocity += Acceleration * dt;
+            Location += Velocity * dt;
+            Rotation += RotationSpeed * dt;
+            Alpha += AlphaChange * dt;
 
-            Color = Color.Lerp(StartColor, EndColor, (float)_BaseTTL / (float)TTL);
+            Color = Color.Lerp(StartColor, EndColor, 1.0f - ((float)TTL / (float)_BaseTTL));
         }
         #endregion
     }

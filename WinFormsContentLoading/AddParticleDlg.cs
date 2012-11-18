@@ -24,6 +24,85 @@ namespace WinFormsContentLoading
             set;
         }
 
+        public AddParticleDlg(Particle copy)
+        {
+            InitializeComponent();
+
+            /* Add relevant info to fields.. */
+            txtName.Text = copy.Name;
+            txtAlphaStart.Text = copy.Alpha.ToString();
+            txtAlphaChange.Text = copy.AlphaChange.ToString();
+
+            txtOffsetXMin.Text = copy.OffsetMinimum.X.ToString();
+            txtOffsetYMin.Text = copy.OffsetMinimum.Y.ToString();
+            txtOffsetXMax.Text = copy.OffsetMaximum.X.ToString();
+            txtOffsetYMax.Text = copy.OffsetMaximum.Y.ToString();
+
+            if (copy.RandomVelocity)
+            {
+                txtStartVelX.Text = copy.MinimumVelocity.X.ToString();
+                txtStartVelY.Text = copy.MinimumVelocity.Y.ToString();
+                txtMaxVelX.Text = copy.MaximumVelocity.X.ToString();
+                txtMaxVelY.Text = copy.MaximumVelocity.Y.ToString();
+                rdoVelRange.Checked = true;
+            }
+            else
+            {
+                txtStartVelX.Text = copy.MinimumVelocity.X.ToString();
+                txtStartVelY.Text = copy.MinimumVelocity.Y.ToString();
+                rdoStaticVel.Checked = true;
+            }
+
+            if (copy.RandomAccel)
+            {
+                txtStaticAccelX.Text = copy.MinimumAcceleration.X.ToString();
+                txtStaticAccelY.Text = copy.MinimumAcceleration.Y.ToString();
+                txtAccelRangeX.Text = copy.MaximumAcceleration.X.ToString();
+                txtAccelRangeY.Text = copy.MaximumAcceleration.Y.ToString();
+                rdoRangeAccel.Checked = true;
+            }
+            else
+            {
+                txtStaticAccelX.Text = copy.MinimumAcceleration.X.ToString();
+                txtStaticAccelY.Text = copy.MinimumAcceleration.Y.ToString();
+                rdoStaticAccel.Checked = true;
+            }
+
+            txtRot.Text = copy.Rotation.ToString();
+            txtDeltaRot.Text = copy.RotationSpeed.ToString();
+            txtScale.Text = copy.Scale.ToString();
+
+            if (copy.RangeTTL)
+            {
+                txtMaxTTL.Text = copy.MaxTTL.ToString();
+                txtTTL.Text = copy.MinTTL.ToString();
+                rdoRangeTTL.Checked = true;
+            }
+            else
+            {
+                txtTTL.Text = copy.TTL.ToString();
+                rdoStaticTTL.Checked = true;
+            }
+
+            txtTexturePath.Text = copy.TextureName;
+
+            System.Drawing.Color color;
+            color = System.Drawing.Color.FromArgb(copy.StartColor.R, copy.StartColor.G, copy.StartColor.B);
+            pctStartColor.BackColor = color;
+            pctEndColor.BackColor = System.Drawing.Color.FromArgb(copy.EndColor.R, copy.EndColor.G, copy.EndColor.B);
+
+            if (copy.ColorInterpolation)
+                rdoColorLerp.Checked = true;
+            EditedParticle = true;
+
+        }
+
+        public bool EditedParticle
+        {
+            get;
+            set;
+        }
+
         public Particle Particle
         {
             get;
@@ -41,6 +120,8 @@ namespace WinFormsContentLoading
             {
                 System.Drawing.Color chosen = colorDialog1.Color;
                 StartColor = new Microsoft.Xna.Framework.Color(chosen.R, chosen.G, chosen.B);
+                pctStartColor.BackColor = chosen;
+                pctEndColor.BackColor = chosen;
             }
         }
 
@@ -247,7 +328,24 @@ namespace WinFormsContentLoading
             Particle.Scale = (float)Convert.ToDouble(txtScale.Text);
 
             /* TTL */
-            Particle.TTL = Convert.ToInt32(txtTTL.Text);
+
+
+            /* Check to see if a ranged TTL is being used */
+            if (rdoRangeTTL.Checked)
+            {
+                Particle.MinTTL = Convert.ToInt32(txtTTL.Text);
+                Particle.MaxTTL = Convert.ToInt32(txtMaxTTL.Text);
+                Particle.RangeTTL = true;
+            }
+            else
+            {
+                Particle.TTL = Convert.ToInt32(txtTTL.Text);
+                //Particle._BaseTTL = Particle.TTL;
+                Particle.RangeTTL = false;
+            }
+
+            Particle.OffsetMaximum = new Vector2((float)Convert.ToDouble(txtOffsetXMax.Text), (float)Convert.ToDouble(txtOffsetYMax.Text));
+            Particle.OffsetMinimum = new Vector2((float)Convert.ToDouble(txtOffsetXMin.Text), (float)Convert.ToDouble(txtOffsetYMin.Text));
 
             /* Texture Name */
             Particle.TextureName = txtTexturePath.Text;
@@ -298,6 +396,7 @@ namespace WinFormsContentLoading
             {
                 System.Drawing.Color chosen = colorDialog1.Color;
                 StartColor = new Microsoft.Xna.Framework.Color(chosen.R, chosen.G, chosen.B);
+                pctStartColor.BackColor = chosen;
             }
         }
 
@@ -307,11 +406,42 @@ namespace WinFormsContentLoading
             {
                 System.Drawing.Color chosen = colorDialog1.Color;
                 EndColor = new Microsoft.Xna.Framework.Color(chosen.R, chosen.G, chosen.B);
+                pctEndColor.BackColor = chosen;
             }
         }
 
         private Microsoft.Xna.Framework.Color StartColor;
         private Microsoft.Xna.Framework.Color EndColor;
+
+        private void radioButton1_CheckedChanged_2(object sender, EventArgs e)
+        {
+            if (rdoStaticTTL.Checked)
+            {
+                /* Hide range TTL */
+                lblMaxTTL.Visible = false;
+                txtMaxTTL.Visible = false;
+            }
+            else
+            {
+                lblMaxTTL.Visible = true;
+                txtMaxTTL.Visible = true;
+            }
+        }
+
+        private void rdoRangeTTL_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoStaticTTL.Checked)
+            {
+                /* Hide range TTL */
+                lblMaxTTL.Visible = false;
+                txtMaxTTL.Visible = false;
+            }
+            else
+            {
+                lblMaxTTL.Visible = true;
+                txtMaxTTL.Visible = true;
+            }
+        }
 
     }
 }

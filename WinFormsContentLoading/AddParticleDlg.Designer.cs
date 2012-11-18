@@ -38,6 +38,8 @@
             this.rdoStaticColor = new System.Windows.Forms.RadioButton();
             this.rdoColorLerp = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtEndAlpha = new System.Windows.Forms.TextBox();
             this.txtAlphaChange = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtAlphaStart = new System.Windows.Forms.TextBox();
@@ -47,10 +49,15 @@
             this.lblEndColor = new System.Windows.Forms.Label();
             this.lblStartColor = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lblMaxTTL = new System.Windows.Forms.Label();
+            this.txtMaxTTL = new System.Windows.Forms.TextBox();
+            this.rdoRangeTTL = new System.Windows.Forms.RadioButton();
+            this.rdoStaticTTL = new System.Windows.Forms.RadioButton();
+            this.txtTTL = new System.Windows.Forms.TextBox();
+            this.lblMinTTL = new System.Windows.Forms.Label();
             this.txtTexturePath = new System.Windows.Forms.TextBox();
             this.btnAddTexture = new System.Windows.Forms.Button();
-            this.txtTTL = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.txtScale = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtDeltaRot = new System.Windows.Forms.TextBox();
@@ -76,10 +83,27 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.txtOffsetYMax = new System.Windows.Forms.TextBox();
+            this.txtOffsetYMin = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtOffsetXMax = new System.Windows.Forms.TextBox();
+            this.txtOffsetXMin = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.pctStartColor = new System.Windows.Forms.PictureBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.pctEndColor = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pctStartColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pctEndColor)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -160,6 +184,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txtEndAlpha);
             this.groupBox1.Controls.Add(this.txtAlphaChange);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtAlphaStart);
@@ -174,10 +200,27 @@
             this.groupBox1.Controls.Add(this.btnStaticColor);
             this.groupBox1.Location = new System.Drawing.Point(15, 51);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(213, 168);
+            this.groupBox1.Size = new System.Drawing.Size(213, 221);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Color Options";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 179);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "End Alpha";
+            // 
+            // txtEndAlpha
+            // 
+            this.txtEndAlpha.Location = new System.Drawing.Point(6, 195);
+            this.txtEndAlpha.Name = "txtEndAlpha";
+            this.txtEndAlpha.Size = new System.Drawing.Size(35, 20);
+            this.txtEndAlpha.TabIndex = 14;
+            this.txtEndAlpha.Text = "1.0";
             // 
             // txtAlphaChange
             // 
@@ -257,10 +300,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.txtTexturePath);
             this.groupBox2.Controls.Add(this.btnAddTexture);
-            this.groupBox2.Controls.Add(this.txtTTL);
-            this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.txtScale);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.txtDeltaRot);
@@ -269,14 +311,88 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Location = new System.Drawing.Point(234, 253);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(257, 229);
+            this.groupBox2.Size = new System.Drawing.Size(257, 265);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Render Options";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.lblMaxTTL);
+            this.groupBox5.Controls.Add(this.txtMaxTTL);
+            this.groupBox5.Controls.Add(this.rdoRangeTTL);
+            this.groupBox5.Controls.Add(this.rdoStaticTTL);
+            this.groupBox5.Controls.Add(this.txtTTL);
+            this.groupBox5.Controls.Add(this.lblMinTTL);
+            this.groupBox5.Location = new System.Drawing.Point(9, 105);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(235, 99);
+            this.groupBox5.TabIndex = 10;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "TTL";
+            // 
+            // lblMaxTTL
+            // 
+            this.lblMaxTTL.AutoSize = true;
+            this.lblMaxTTL.Location = new System.Drawing.Point(92, 44);
+            this.lblMaxTTL.Name = "lblMaxTTL";
+            this.lblMaxTTL.Size = new System.Drawing.Size(50, 13);
+            this.lblMaxTTL.TabIndex = 9;
+            this.lblMaxTTL.Text = "Max TTL";
+            this.lblMaxTTL.Visible = false;
+            // 
+            // txtMaxTTL
+            // 
+            this.txtMaxTTL.Location = new System.Drawing.Point(91, 60);
+            this.txtMaxTTL.Name = "txtMaxTTL";
+            this.txtMaxTTL.Size = new System.Drawing.Size(52, 20);
+            this.txtMaxTTL.TabIndex = 8;
+            this.txtMaxTTL.Visible = false;
+            // 
+            // rdoRangeTTL
+            // 
+            this.rdoRangeTTL.AutoSize = true;
+            this.rdoRangeTTL.Location = new System.Drawing.Point(91, 20);
+            this.rdoRangeTTL.Name = "rdoRangeTTL";
+            this.rdoRangeTTL.Size = new System.Drawing.Size(80, 17);
+            this.rdoRangeTTL.TabIndex = 1;
+            this.rdoRangeTTL.Text = "Range TTL";
+            this.rdoRangeTTL.UseVisualStyleBackColor = true;
+            this.rdoRangeTTL.CheckedChanged += new System.EventHandler(this.rdoRangeTTL_CheckedChanged);
+            // 
+            // rdoStaticTTL
+            // 
+            this.rdoStaticTTL.AutoSize = true;
+            this.rdoStaticTTL.Checked = true;
+            this.rdoStaticTTL.Location = new System.Drawing.Point(5, 20);
+            this.rdoStaticTTL.Name = "rdoStaticTTL";
+            this.rdoStaticTTL.Size = new System.Drawing.Size(75, 17);
+            this.rdoStaticTTL.TabIndex = 0;
+            this.rdoStaticTTL.TabStop = true;
+            this.rdoStaticTTL.Text = "Static TTL";
+            this.rdoStaticTTL.UseVisualStyleBackColor = true;
+            this.rdoStaticTTL.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged_2);
+            // 
+            // txtTTL
+            // 
+            this.txtTTL.Location = new System.Drawing.Point(5, 60);
+            this.txtTTL.Name = "txtTTL";
+            this.txtTTL.Size = new System.Drawing.Size(52, 20);
+            this.txtTTL.TabIndex = 7;
+            this.txtTTL.Text = "100";
+            // 
+            // lblMinTTL
+            // 
+            this.lblMinTTL.AutoSize = true;
+            this.lblMinTTL.Location = new System.Drawing.Point(6, 44);
+            this.lblMinTTL.Name = "lblMinTTL";
+            this.lblMinTTL.Size = new System.Drawing.Size(47, 13);
+            this.lblMinTTL.TabIndex = 6;
+            this.lblMinTTL.Text = "Min TTL";
+            // 
             // txtTexturePath
             // 
-            this.txtTexturePath.Location = new System.Drawing.Point(7, 175);
+            this.txtTexturePath.Location = new System.Drawing.Point(6, 239);
             this.txtTexturePath.Name = "txtTexturePath";
             this.txtTexturePath.Size = new System.Drawing.Size(244, 20);
             this.txtTexturePath.TabIndex = 9;
@@ -284,30 +400,13 @@
             // 
             // btnAddTexture
             // 
-            this.btnAddTexture.Location = new System.Drawing.Point(6, 145);
+            this.btnAddTexture.Location = new System.Drawing.Point(8, 210);
             this.btnAddTexture.Name = "btnAddTexture";
             this.btnAddTexture.Size = new System.Drawing.Size(121, 23);
             this.btnAddTexture.TabIndex = 8;
             this.btnAddTexture.Text = "Add Texture...";
             this.btnAddTexture.UseVisualStyleBackColor = true;
             this.btnAddTexture.Click += new System.EventHandler(this.btnAddTexture_Click);
-            // 
-            // txtTTL
-            // 
-            this.txtTTL.Location = new System.Drawing.Point(9, 119);
-            this.txtTTL.Name = "txtTTL";
-            this.txtTTL.Size = new System.Drawing.Size(100, 20);
-            this.txtTTL.TabIndex = 7;
-            this.txtTTL.Text = "100";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 103);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(27, 13);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "TTL";
             // 
             // txtScale
             // 
@@ -536,7 +635,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(488, 494);
+            this.button1.Location = new System.Drawing.Point(488, 524);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 15;
@@ -546,7 +645,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(407, 494);
+            this.button2.Location = new System.Drawing.Point(407, 524);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 16;
@@ -554,11 +653,132 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.txtOffsetYMax);
+            this.groupBox6.Controls.Add(this.txtOffsetYMin);
+            this.groupBox6.Controls.Add(this.label11);
+            this.groupBox6.Controls.Add(this.label10);
+            this.groupBox6.Controls.Add(this.label9);
+            this.groupBox6.Controls.Add(this.label3);
+            this.groupBox6.Controls.Add(this.txtOffsetXMax);
+            this.groupBox6.Controls.Add(this.txtOffsetXMin);
+            this.groupBox6.Location = new System.Drawing.Point(15, 278);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(213, 137);
+            this.groupBox6.TabIndex = 17;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Misc";
+            // 
+            // txtOffsetYMax
+            // 
+            this.txtOffsetYMax.Location = new System.Drawing.Point(76, 78);
+            this.txtOffsetYMax.Name = "txtOffsetYMax";
+            this.txtOffsetYMax.Size = new System.Drawing.Size(44, 20);
+            this.txtOffsetYMax.TabIndex = 7;
+            // 
+            // txtOffsetYMin
+            // 
+            this.txtOffsetYMin.Location = new System.Drawing.Point(9, 78);
+            this.txtOffsetYMin.Name = "txtOffsetYMin";
+            this.txtOffsetYMin.Size = new System.Drawing.Size(44, 20);
+            this.txtOffsetYMin.TabIndex = 6;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(77, 62);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(68, 13);
+            this.label11.TabIndex = 5;
+            this.label11.Text = "Offset Y Max";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 62);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(65, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Offset Y Min";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(77, 23);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(68, 13);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Offset X Max";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Offset X Min";
+            // 
+            // txtOffsetXMax
+            // 
+            this.txtOffsetXMax.Location = new System.Drawing.Point(76, 39);
+            this.txtOffsetXMax.Name = "txtOffsetXMax";
+            this.txtOffsetXMax.Size = new System.Drawing.Size(44, 20);
+            this.txtOffsetXMax.TabIndex = 1;
+            // 
+            // txtOffsetXMin
+            // 
+            this.txtOffsetXMin.Location = new System.Drawing.Point(9, 39);
+            this.txtOffsetXMin.Name = "txtOffsetXMin";
+            this.txtOffsetXMin.Size = new System.Drawing.Size(44, 20);
+            this.txtOffsetXMin.TabIndex = 0;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(18, 444);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(56, 13);
+            this.label12.TabIndex = 18;
+            this.label12.Text = "Start Color";
+            // 
+            // pctStartColor
+            // 
+            this.pctStartColor.BackColor = System.Drawing.SystemColors.Control;
+            this.pctStartColor.Location = new System.Drawing.Point(21, 460);
+            this.pctStartColor.Name = "pctStartColor";
+            this.pctStartColor.Size = new System.Drawing.Size(53, 50);
+            this.pctStartColor.TabIndex = 19;
+            this.pctStartColor.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(92, 444);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 13);
+            this.label13.TabIndex = 20;
+            this.label13.Text = "End Color";
+            // 
+            // pctEndColor
+            // 
+            this.pctEndColor.Location = new System.Drawing.Point(95, 460);
+            this.pctEndColor.Name = "pctEndColor";
+            this.pctEndColor.Size = new System.Drawing.Size(53, 50);
+            this.pctEndColor.TabIndex = 21;
+            this.pctEndColor.TabStop = false;
+            // 
             // AddParticleDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(575, 529);
+            this.ClientSize = new System.Drawing.Size(583, 558);
+            this.Controls.Add(this.pctEndColor);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.pctStartColor);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
@@ -573,10 +793,16 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pctStartColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pctEndColor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -620,7 +846,7 @@
         private System.Windows.Forms.TextBox txtMaxVelY;
         private System.Windows.Forms.TextBox txtStartVelY;
         private System.Windows.Forms.TextBox txtTTL;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblMinTTL;
         private System.Windows.Forms.TextBox txtTexturePath;
         private System.Windows.Forms.Button btnAddTexture;
         private System.Windows.Forms.Button button1;
@@ -632,5 +858,25 @@
         private System.Windows.Forms.Label lblMaxAccel;
         private System.Windows.Forms.Label lblStartAccel;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label lblMaxTTL;
+        private System.Windows.Forms.TextBox txtMaxTTL;
+        private System.Windows.Forms.RadioButton rdoRangeTTL;
+        private System.Windows.Forms.RadioButton rdoStaticTTL;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtEndAlpha;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.TextBox txtOffsetYMax;
+        private System.Windows.Forms.TextBox txtOffsetYMin;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtOffsetXMax;
+        private System.Windows.Forms.TextBox txtOffsetXMin;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.PictureBox pctStartColor;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.PictureBox pctEndColor;
     }
 }

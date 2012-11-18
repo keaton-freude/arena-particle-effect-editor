@@ -100,9 +100,11 @@ namespace WinFormsContentLoading
 
             /* We will always draw the current Emitter Location */
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             if (EmitterMarker != null)
                 spriteBatch.Draw(EmitterMarker, new Vector2(EmitterLocation.X - EmitterMarker.Width / 4, EmitterLocation.Y - EmitterMarker.Height / 4), null, Color.White * .2f, 0.0f, Vector2.Zero, .5f, SpriteEffects.None, 1.0f );
+            spriteBatch.End();
+
             MainForm.fpsLabel.Text = FPS;
             if (Rendering)
             {
@@ -110,7 +112,7 @@ namespace WinFormsContentLoading
                 ParticleEngine.Instance.Draw(spriteBatch);
             }
 
-            spriteBatch.End();
+            
             if (timer.ElapsedMilliseconds >= 17)
             {
                 frames++;
@@ -121,7 +123,7 @@ namespace WinFormsContentLoading
                     FPS = String.Format("FPS: {0}", frames);
                     frames = 0;
                 }
-                ParticleEngine.Instance.Update();
+                ParticleEngine.Instance.Update((float)timer.ElapsedMilliseconds / 1000.0f, EmitterLocation);
                 timer.Restart();
             }
         }
