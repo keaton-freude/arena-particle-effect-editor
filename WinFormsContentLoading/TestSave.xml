@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ParticleSystem Name="TestSystem">
+  <ParticleEffect Type="Continuous" TexturePolling="Random" BlendState="Alpha">
+    <ParticleEmitter>
+      <MaxParticles>300</MaxParticles>
+      <MinVelocity X="-10" Y="-70"></MinVelocity>
+      <MaxVelocity X="10" Y="-120"></MaxVelocity>
+      <ParticlesPerUpdate>3</ParticlesPerUpdate>
+      <OffsetMin X="-3" Y="0"></OffsetMin>
+      <OffsetMax X="3" Y="0"></OffsetMax>
+      <MinAccel X="-10" Y="-20"></MinAccel>
+      <MaxAccel X="10" Y="-10"></MaxAccel>
+    </ParticleEmitter>
+    <Particle Name="TestParticle">
+      <StartColor R="100" G="100" B="100"></StartColor>
+      <EndColor R="100" G="100" B="100"></EndColor>
+      <StartAlpha>.6</StartAlpha>
+      <EndAlpha>.2</EndAlpha>
+      <Rotation>0.0</Rotation>
+      <RotationSpeed>0.0</RotationSpeed>
+      <ScaleStart>.25</ScaleStart>
+      <ScaleEnd>.45</ScaleEnd>
+      <Origin X="0" Y="0"></Origin>
+      <TextureName>SmokeParticle1.png</TextureName>
+      <Life Min="1.0" Max="2.0"></Life>
+    </Particle>
+  </ParticleEffect>
+</ParticleSystem>

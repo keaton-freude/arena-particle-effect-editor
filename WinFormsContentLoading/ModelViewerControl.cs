@@ -72,10 +72,10 @@ namespace WinFormsContentLoading
         /// </summary>
         protected override void Initialize()
         {
-            EmitterLocation = new Vector2(Width / 2, Height / 2);
+            //EmitterLocation = new Vector2(Width / 2, Height / 2);
             // Start the animation timer.
             timer = Stopwatch.StartNew();
-
+            
             render_control = Stopwatch.StartNew();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
@@ -92,6 +92,7 @@ namespace WinFormsContentLoading
         int frames = 0;
         long current_time = 0;
         String FPS = "FPS: ";
+        public float emitter_rot = 0.0f;
         protected override void Draw()
         {
             // Clear to the default control background color.
@@ -101,8 +102,8 @@ namespace WinFormsContentLoading
             /* We will always draw the current Emitter Location */
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            if (EmitterMarker != null)
-                spriteBatch.Draw(EmitterMarker, new Vector2(EmitterLocation.X - EmitterMarker.Width / 4, EmitterLocation.Y - EmitterMarker.Height / 4), null, Color.White * .2f, 0.0f, Vector2.Zero, .5f, SpriteEffects.None, 1.0f );
+            if (EmitterLocation != null && EmitterMarker != null)
+                spriteBatch.Draw(EmitterMarker, new Vector2(EmitterLocation.X, EmitterLocation.Y), null, Color.White, emitter_rot, new Vector2(EmitterMarker.Width / 2, EmitterMarker.Height / 2), .5f, SpriteEffects.None, 1.0f );
             spriteBatch.End();
 
             MainForm.fpsLabel.Text = FPS;
@@ -123,7 +124,8 @@ namespace WinFormsContentLoading
                     FPS = String.Format("FPS: {0}", frames);
                     frames = 0;
                 }
-                ParticleEngine.Instance.Update((float)timer.ElapsedMilliseconds / 1000.0f, EmitterLocation);
+                if (Rendering)
+                    ParticleEngine.Instance.Update((float)timer.ElapsedMilliseconds / 1000.0f);
                 timer.Restart();
             }
         }

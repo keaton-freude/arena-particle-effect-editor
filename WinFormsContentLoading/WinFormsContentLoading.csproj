@@ -76,6 +76,12 @@
   <ItemGroup>
     <Compile Include="ContentBuilder.cs" />
     <Compile Include="ContinuousParticleEffect.cs" />
+    <Compile Include="EmitterPropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmitterPropertiesDlg.Designer.cs">
+      <DependentUpon>EmitterPropertiesDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="AddParticleDlg.cs">
       <SubType>Form</SubType>
@@ -99,11 +105,16 @@
     <Compile Include="OneShotParticleEffect.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleEffect.cs" />
+    <Compile Include="ParticleEmitter.cs" />
     <Compile Include="ParticleEngine.cs" />
+    <Compile Include="ParticleSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddParticleDlg.resx">
       <DependentUpon>AddParticleDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmitterPropertiesDlg.resx">
+      <DependentUpon>EmitterPropertiesDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
@@ -148,6 +159,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestSave.xml" />
     <Content Include="TODO And Credits.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

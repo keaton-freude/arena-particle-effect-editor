@@ -27,48 +27,6 @@ namespace WinFormsContentLoading
             get;
             set;
         }
-
-        public Boolean RandomVelocity
-        {
-            get;
-            set;
-        }
-
-        public Boolean RandomAccel
-        {
-            get;
-            set;
-        }
-
-        public Boolean ColorInterpolation
-        {
-            get;
-            set;
-        }
-
-        public Vector2 MinimumVelocity
-        {
-            get;
-            set;
-        }
-
-        public Vector2 MaximumVelocity
-        {
-            get;
-            set;
-        }
-
-        public Vector2 MinimumAcceleration
-        {
-            get;
-            set;
-        }
-
-        public Vector2 MaximumAcceleration
-        {
-            get;
-            set;
-        }
         #endregion
 
         #region Render Properties
@@ -90,13 +48,13 @@ namespace WinFormsContentLoading
             set;
         }
 
-        public float Alpha
+        public float StartAlpha
         {
             get;
             set;
         }
 
-        public float AlphaChange
+        public float EndAlpha
         {
             get;
             set;
@@ -115,6 +73,18 @@ namespace WinFormsContentLoading
         }
 
         public float Scale
+        {
+            get;
+            set;
+        }
+
+        public float ScaleStart
+        {
+            get;
+            set;
+        }
+
+        public float ScaleEnd
         {
             get;
             set;
@@ -151,56 +121,26 @@ namespace WinFormsContentLoading
         #endregion
 
         #region Life-time Specifics
-        public Int32 TTL
+
+        public float MinLife
         {
             get;
             set;
         }
 
-        public Int32 _BaseTTL;
-        //public Int32 MaxTTL
-        //{
-        //    get;
-        //    set;
-        //}
-
-        public Boolean RangeTTL
+        public float MaxLife
         {
             get;
             set;
         }
 
-        public Vector2 OffsetMinimum
+        public float Life
         {
             get;
             set;
         }
 
-        public Vector2 OffsetMaximum
-        {
-            get;
-            set;
-        }
-
-        public Vector2 Offset
-        {
-            get;
-            set;
-        }
-
-        public Int32 MinTTL
-        {
-            get;
-            set;
-        }
-
-        public Int32 MaxTTL
-        {
-            get;
-            set;
-        }
-
-        public Vector2 SpeedModifier
+        public float StartingLife
         {
             get;
             set;
@@ -218,19 +158,20 @@ namespace WinFormsContentLoading
         #region Draw/Update
         public void Draw(SpriteBatch spriteBatch)
         {
-            float alpha_percent = ((float)TTL / (float)_BaseTTL);
-            spriteBatch.Draw(Texture, Location + Offset, null, Color * alpha_percent, Rotation, Origin, Scale, SpriteEffects.None, 1.0f);
+            float alpha = MathHelper.Lerp(StartAlpha, EndAlpha, 1.0f - (Life / StartingLife));
+            spriteBatch.Draw(Texture, Location, null, Color * alpha, Rotation, Origin, Scale, SpriteEffects.None, 1.0f);
         }
 
         public void Update(float dt)
         {
-            TTL--;
+            Life -= dt;
             Velocity += Acceleration * dt;
             Location += Velocity * dt;
             Rotation += RotationSpeed * dt;
-            Alpha += AlphaChange * dt;
+       
 
-            Color = Color.Lerp(StartColor, EndColor, 1.0f - ((float)TTL / (float)_BaseTTL));
+            Color = Color.Lerp(StartColor, EndColor, 1.0f - (Life / StartingLife));
+            Scale = MathHelper.Lerp(ScaleStart, ScaleEnd, 1.0f - (Life / StartingLife));
         }
         #endregion
     }

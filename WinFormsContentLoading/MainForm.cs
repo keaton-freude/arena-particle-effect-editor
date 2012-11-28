@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 using Microsoft.Xna.Framework;
+using System.Linq;
 //using Microsoft.Xna.Framework.Graphics;
 
 using System.Collections.Generic;
@@ -35,6 +36,13 @@ namespace WinFormsContentLoading
 
         String State = "None";
 
+        public ParticleEmitter emitter = null;
+        public float emitter_rot = 0.0f;
+
+        public static Label particleCountLabel;
+        public static Label maxParticleCount;
+
+        public string CurrentSystemName = "None";
 
         /// <summary>
         /// Constructs the main form.
@@ -44,11 +52,15 @@ namespace WinFormsContentLoading
             InitializeComponent();
 
             fpsLabel = lblFPSREAL;
+            particleCountLabel = lblParticlesActive;
+            maxParticleCount = lblMaxParticles;
 
             contentBuilder = new ContentBuilder();
 
             contentManager = new ContentManager(modelViewerControl.Services,
                                                 contentBuilder.OutputDirectory);
+
+            ParticleEngine.Instance.main_form_reference = this;
 
             /// Automatically bring up the "Load Model" dialog when we are first shown.
             //this.Shown += OpenMenuClicked;
@@ -93,7 +105,7 @@ namespace WinFormsContentLoading
         /// <summary>
         /// Loads a new 3D model file into the ModelViewerControl.
         /// </summary>
-        Texture2D LoadTexture(string fileName)
+        public Texture2D LoadTexture(string fileName)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -156,7 +168,11 @@ namespace WinFormsContentLoading
                 State = "None";
                 btnSetEmitter.Enabled = true;
                 btnSetEmitter.Text = "Set Emitter Location";
-                modelViewerControl.EmitterMarker = LoadTexture("EmitterMarker.bmp");
+                modelViewerControl.EmitterMarker = LoadTexture("EmitterMarker1.bmp");
+                if (emitter == null)
+                    emitter = new ParticleEmitter();
+                else
+                    emitter.Location = new Microsoft.Xna.Framework.Vector2(e.X, e.Y);
                
             }
         }
@@ -176,11 +192,11 @@ namespace WinFormsContentLoading
             if (rdoOneShot.Checked)
             {
                 groupBoxOneShot.Visible = true;
-                groupBoxContinuous.Visible = false;
+                //groupBoxContinuous.Visible = false;
             }
             else
             {
-                groupBoxContinuous.Visible = true;
+                //groupBoxContinuous.Visible = true;
                 groupBoxOneShot.Visible = false;
             }
         }
@@ -189,17 +205,28 @@ namespace WinFormsContentLoading
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+            //if (rdoOneShot.Checked)
+            //{
+            //    groupBoxOneShot.Visible = true;
+            //    groupBoxOneShot.BringToFront();
+            //    groupBoxContinuous.Visible = false;
+            //}
+            //else
+            //{
+            //    groupBoxContinuous.Visible = true;
+            //    groupBoxOneShot.Visible = false;
+            //    groupBoxContinuous.BringToFront();
+            //}
+
             if (rdoOneShot.Checked)
             {
                 groupBoxOneShot.Visible = true;
-                groupBoxOneShot.BringToFront();
-                groupBoxContinuous.Visible = false;
+                //groupBoxContinuous.Visible = false;
             }
             else
             {
-                groupBoxContinuous.Visible = true;
+                //groupBoxContinuous.Visible = true;
                 groupBoxOneShot.Visible = false;
-                groupBoxContinuous.BringToFront();
             }
         }
 
@@ -210,7 +237,7 @@ namespace WinFormsContentLoading
             /* Create the list of textures according to our listbox */
 
             /* We only test one at a time, we'll kill the ParticleENgine effects list each time */
-            ParticleEngine.Instance.effects.Clear();
+            ParticleEngine.Instance.systems.Clear();
 
             String TexturePolling = "";
 
@@ -235,43 +262,43 @@ namespace WinFormsContentLoading
 
             if (rdoOneShot.Checked)
             {
-                OneShotParticleEffect one_shot_effect = new OneShotParticleEffect(textures);
-                one_shot_effect.EmitterLocation = modelViewerControl.EmitterLocation;
-                one_shot_effect.MasterParticles = masterParticles;
-                if (rdoAlphaBlending.Checked)
-                {
-                    one_shot_effect.BlendingState = "Alpha";
-                }
-                else if (rdoAdditiveBlending.Checked)
-                {
-                    one_shot_effect.BlendingState = "Additive";
-                }
-                one_shot_effect.TexturePolling = TexturePolling;
-                one_shot_effect.NumberOfParticles = Convert.ToInt32(txtNumParticles.Text);
+                //OneShotParticleEffect one_shot_effect = new OneShotParticleEffect(textures);
+                //one_shot_effect.EmitterLocation = modelViewerControl.EmitterLocation;
+                //one_shot_effect.MasterParticles = masterParticles;
+                //if (rdoAlphaBlending.Checked)
+                //{
+                //    one_shot_effect.BlendingState = "Alpha";
+                //}
+                //else if (rdoAdditiveBlending.Checked)
+                //{
+                //    one_shot_effect.BlendingState = "Additive";
+                //}
+                //one_shot_effect.TexturePolling = TexturePolling;
+                //one_shot_effect.NumberOfParticles = Convert.ToInt32(txtNumParticles.Text);
 
-                one_shot_effect.Iterations = Convert.ToInt32(txtIterations.Text);
-                one_shot_effect.CircleRadius = (float)Convert.ToDouble(txtRadius.Text);
-                ParticleEngine.Instance.effects.Add("Test", one_shot_effect);
-                ((OneShotParticleEffect)ParticleEngine.Instance.effects["Test"]).Fire();
-                modelViewerControl.Rendering = true;
+                //one_shot_effect.Iterations = Convert.ToInt32(txtIterations.Text);
+                //one_shot_effect.CircleRadius = (float)Convert.ToDouble(txtRadius.Text);
+                //ParticleEngine.Instance.effects.Add("Test", one_shot_effect);
+                //((OneShotParticleEffect)ParticleEngine.Instance.effects["Test"]).Fire();
+                //modelViewerControl.Rendering = true;
             }
             else if (rdoContinuous.Checked)
             {
-                ContinuousParticleEffect continuous_effect = new ContinuousParticleEffect(textures);
-                continuous_effect.EmitterLocation = modelViewerControl.EmitterLocation;
-                continuous_effect.MasterParticles = masterParticles;
-                if (rdoAlphaBlending.Checked)
-                {
-                    continuous_effect.BlendingState = "Alpha";
-                }
-                else
-                    continuous_effect.BlendingState = "Additive";
-                continuous_effect.TexturePolling = TexturePolling;
-                continuous_effect.MaxParticles = Convert.ToInt32(txtMaxParticles.Text);
-                continuous_effect.ParticlesPerUpdate = Convert.ToInt32(txtParticlesPerUpdate.Text);
-                ParticleEngine.Instance.effects.Add("Test", continuous_effect);
-                ((ContinuousParticleEffect)ParticleEngine.Instance.effects["Test"]).Generating = true;
-                modelViewerControl.Rendering = true;
+                //ContinuousParticleEffect continuous_effect = new ContinuousParticleEffect(textures);
+                //continuous_effect.EmitterLocation = modelViewerControl.EmitterLocation;
+                //continuous_effect.MasterParticles = masterParticles;
+                //if (rdoAlphaBlending.Checked)
+                //{
+                //    continuous_effect.BlendingState = "Alpha";
+                //}
+                //else
+                //    continuous_effect.BlendingState = "Additive";
+                //continuous_effect.TexturePolling = TexturePolling;
+                //continuous_effect.MaxParticles = Convert.ToInt32(txtMaxParticles.Text);
+                //continuous_effect.ParticlesPerUpdate = Convert.ToInt32(txtParticlesPerUpdate.Text);
+                //ParticleEngine.Instance.effects.Add("Test", continuous_effect);
+                //((ContinuousParticleEffect)ParticleEngine.Instance.effects["Test"]).Generating = true;
+                //modelViewerControl.Rendering = true;
             }
         }
 
@@ -295,11 +322,28 @@ namespace WinFormsContentLoading
             }
         }
 
+        public float GetAngle(Vector2 From, Vector2 Dest)
+        {
+            From.Normalize();
+            Dest.Normalize();
+            float Angle = (float)Math.Acos(Vector2.Dot(From, Dest));
+
+            return (float)Angle;
+        }
+
         private void modelViewerControl_MouseMove(object sender, MouseEventArgs e)
         {
             if (chkEmitterMouseFollow.Checked)
             {
                 modelViewerControl.EmitterLocation = new Vector2(e.X, e.Y);
+                ParticleEngine.Instance.systems[CurrentSystemName].effects[0].Emitter.Location = new Vector2(e.X, e.Y);
+            }
+            else
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+
+                }
             }
         }
 
@@ -310,5 +354,286 @@ namespace WinFormsContentLoading
                 lstParticles.Items.RemoveAt(lstParticles.SelectedIndex);
             }
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            this.KeyPreview = true;
+        }
+
+        private void groupBoxOneShot_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEmitterProperties_Click(object sender, EventArgs e)
+        {
+            EmitterPropertiesDlg dlg;
+            if (emitter == null)
+                dlg = new EmitterPropertiesDlg();
+            else
+                dlg = new EmitterPropertiesDlg(emitter);
+
+            dlg.Show();
+
+            if (dlg.State == "New")
+            {
+                emitter = dlg.BuiltEmitter;
+                emitter.Location = modelViewerControl.EmitterLocation;
+            }
+            else if (dlg.State == "Edit")
+            {
+                emitter = dlg.BuiltEmitter;
+                emitter.Location = modelViewerControl.EmitterLocation;
+            }
+
+
+        }
+
+        private void lstParticles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ///* GO! */
+            ///* Create the effect */
+
+            ///* Create the list of textures according to our listbox */
+
+            ///* We only test one at a time, we'll kill the ParticleENgine effects list each time */
+            //ParticleEngine.Instance.systems.Clear();
+            //ParticleEngine.Instance.systems.Add("Test", new ParticleSystem());
+
+            //String TexturePolling = "";
+
+            //if (rdoRandomPolling.Checked)
+            //    TexturePolling = "Random";
+            //else
+            //    TexturePolling = "RoundRobin";
+
+            //List<Texture2D> textures = new List<Texture2D>();
+            //foreach (Particle p in lstParticles.Items)
+            //{
+            //    textures.Add(LoadTexture(p.TextureName));
+            //}
+
+            //List<Particle> masterParticles = new List<Particle>();
+            //foreach (Particle p in lstParticles.Items)
+            //{
+            //    masterParticles.Add(p);
+            //}
+            //emitter.InitialRot = emitter_rot;
+            ///* If we're doing one shot we'll handle it here */
+
+            //if (rdoOneShot.Checked)
+            //{
+                
+            //    OneShotParticleEffect one_shot_effect = new OneShotParticleEffect(textures, emitter);
+            //    one_shot_effect.MasterParticles = masterParticles;
+            //    if (rdoAlphaBlending.Checked)
+            //    {
+            //        one_shot_effect.BlendingState = "Alpha";
+            //    }
+            //    else if (rdoAdditiveBlending.Checked)
+            //    {
+            //        one_shot_effect.BlendingState = "Additive";
+            //    }
+            //    one_shot_effect.TexturePolling = TexturePolling;
+            //    one_shot_effect.Emitter = emitter;
+
+            //    one_shot_effect.Iterations = Convert.ToInt32(txtIterations.Text);
+            //    one_shot_effect.CircleRadius = (float)Convert.ToDouble(txtRadius.Text);
+
+            //    ParticleEngine.Instance.systems["Test"].effects.Add(one_shot_effect);
+            //    ((OneShotParticleEffect)ParticleEngine.Instance.systems["Test"].effects[0]).Fire();
+            //    modelViewerControl.Rendering = true;
+            //}
+            //else
+            //{
+            //    ContinuousParticleEffect continuous_effect = new ContinuousParticleEffect(textures, emitter);
+            //    continuous_effect.MasterParticles = masterParticles;
+            //    if (rdoAlphaBlending.Checked)
+            //    {
+            //        continuous_effect.BlendingState = "Alpha";
+            //    }
+            //    else if (rdoAdditiveBlending.Checked)
+            //    {
+            //        continuous_effect.BlendingState = "Additive";
+            //    }
+            //    continuous_effect.TexturePolling = TexturePolling;
+            //    continuous_effect.Emitter = emitter;
+
+            //    ParticleEngine.Instance.systems["Test"].effects.Add(continuous_effect);
+            //    ((ContinuousParticleEffect)ParticleEngine.Instance.systems["Test"].effects[0]).Generating = true;
+            //    modelViewerControl.Rendering = true;
+            //}
+
+            /* Check to see if there's an effect already loaded into the particle engine */
+            if (ParticleEngine.Instance.systems.Count != 0)
+            {
+                /* Okay we got a system already in place */
+                /* Ask user if we want to load a fresh one from the currently selected items
+                 * or if he'd like to test what's currently loaded */
+                if (MessageBox.Show("Yo! You already got a system loaded. Do you want to discard that system and build another based"
+                    + " on current parameters? WARNING: Doing so will discard all changes" 
+                    + "that have not been saved to the currently loaded system", "System already loaded", MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+                {
+                    /* Lets just take whatever system is loaded (we can guarantee only one) and start it up */
+
+                    /* NOTE: ASSUMING CONTINUOUS FIX THIS BEFORE LAUNCH LOL */
+                    ParticleEngine.Instance.systems[CurrentSystemName].effects[0].Emitter.Location = emitter.Location;
+                    ((ContinuousParticleEffect)ParticleEngine.Instance.systems[CurrentSystemName].effects[0]).Generating = true;
+                    modelViewerControl.Rendering = true;
+                }
+                else
+                {
+                    /* User wants to discard old effect and build new one from current context */
+                    BuildAndRunNewEffect();
+                }
+            }
+            else
+            {
+                /* No effect loaded, we'll build one from our current context */
+                BuildAndRunNewEffect();
+            }
+        }
+
+        public void BuildAndRunNewEffect()
+        {
+            CurrentSystemName = txtSystemName.Text;
+            ParticleEngine.Instance.systems.Clear();
+            ParticleEngine.Instance.systems.Add(CurrentSystemName, new ParticleSystem());
+
+            String TexturePolling = "";
+
+            if (rdoRandomPolling.Checked)
+                TexturePolling = "Random";
+            else
+                TexturePolling = "RoundRobin";
+
+            List<Texture2D> textures = new List<Texture2D>();
+            foreach (Particle p in lstParticles.Items)
+            {
+                textures.Add(LoadTexture(p.TextureName));
+            }
+
+            List<Particle> masterParticles = new List<Particle>();
+            foreach (Particle p in lstParticles.Items)
+            {
+                masterParticles.Add(p);
+            }
+            emitter.InitialRot = emitter_rot;
+            /* If we're doing one shot we'll handle it here */
+
+            if (rdoOneShot.Checked)
+            {
+
+                OneShotParticleEffect one_shot_effect = new OneShotParticleEffect(textures, emitter);
+                one_shot_effect.MasterParticles = masterParticles;
+                if (rdoAlphaBlending.Checked)
+                {
+                    one_shot_effect.BlendingState = "Alpha";
+                }
+                else if (rdoAdditiveBlending.Checked)
+                {
+                    one_shot_effect.BlendingState = "Additive";
+                }
+                one_shot_effect.TexturePolling = TexturePolling;
+                one_shot_effect.Emitter = emitter;
+
+                one_shot_effect.Iterations = Convert.ToInt32(txtIterations.Text);
+                one_shot_effect.CircleRadius = (float)Convert.ToDouble(txtRadius.Text);
+
+                ParticleEngine.Instance.systems[CurrentSystemName].effects.Add(one_shot_effect);
+                ((OneShotParticleEffect)ParticleEngine.Instance.systems[CurrentSystemName].effects[0]).Fire();
+                modelViewerControl.Rendering = true;
+            }
+            else
+            {
+                ContinuousParticleEffect continuous_effect = new ContinuousParticleEffect(textures, emitter);
+                continuous_effect.MasterParticles = masterParticles;
+                if (rdoAlphaBlending.Checked)
+                {
+                    continuous_effect.BlendingState = "Alpha";
+                }
+                else if (rdoAdditiveBlending.Checked)
+                {
+                    continuous_effect.BlendingState = "Additive";
+                }
+                continuous_effect.TexturePolling = TexturePolling;
+                continuous_effect.Emitter = emitter;
+
+                ParticleEngine.Instance.systems[CurrentSystemName].effects.Add(continuous_effect);
+                ((ContinuousParticleEffect)ParticleEngine.Instance.systems[CurrentSystemName].effects[0]).Generating = true;
+                modelViewerControl.Rendering = true;
+            }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            //modelViewerControl.emitter_rot = (float)((float)trackBar1.Value / 100.0f);
+            ////emitter.InitialRot = (float)((float)trackBar1.Value / 100.0f);
+            //emitter_rot = (float)((float)trackBar1.Value / 100.0f);
+            //if (ParticleEngine.Instance.systems.ContainsKey("Test"))
+            //{
+            //    ParticleEngine.Instance.systems["Test"].effects[0].Emitter.InitialRot = emitter_rot;
+            //}
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                testToolStripMenuItem_Click(sender, null);
+            }
+        }
+
+        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            string system_name = "";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = dlg.FileName;
+                system_name = ParticleEngine.Instance.LoadFromFile(path);
+
+                if (system_name != "Fail")
+                {
+                    emitter = ParticleEngine.Instance.systems[system_name].effects[0].Emitter;
+                    lstParticles.Items.Clear();
+                    foreach (Particle p in ParticleEngine.Instance.systems[system_name].effects[0].MasterParticles)
+                    {
+                        lstParticles.Items.Add(p);
+                    }
+
+                    //string what = ParticleEngine.Instance.systems[system_name].effects[0].GetType().ToString().Split('.').Last();
+
+                    if (ParticleEngine.Instance.systems[system_name].effects[0].GetType().ToString().Split('.').Last() == "ContinuousParticleEffect")
+                    {
+                        rdoContinuous.Checked = true;
+                    }
+                    else
+                        rdoOneShot.Checked = true;
+
+                    if (ParticleEngine.Instance.systems[system_name].effects[0].BlendingState == "Alpha")
+                        rdoAlphaBlending.Checked = true;
+                    else
+                        rdoAdditiveBlending.Checked = true;
+
+                    CurrentSystemName = system_name;
+                }
+            }
+        }
+
+        private void youllNeedItToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Unless you wrote this awesome little thing, using it might seem foreign. Refer to the document that" +
+                " came in the installation directory of this program called ReadMePlease.txt in order to learn how to use this little thing");
+        }
+
+
+       
     }
 }

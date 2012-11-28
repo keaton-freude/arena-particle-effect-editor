@@ -30,59 +30,13 @@ namespace WinFormsContentLoading
 
             /* Add relevant info to fields.. */
             txtName.Text = copy.Name;
-            txtAlphaStart.Text = copy.Alpha.ToString();
-            txtAlphaChange.Text = copy.AlphaChange.ToString();
-
-            txtOffsetXMin.Text = copy.OffsetMinimum.X.ToString();
-            txtOffsetYMin.Text = copy.OffsetMinimum.Y.ToString();
-            txtOffsetXMax.Text = copy.OffsetMaximum.X.ToString();
-            txtOffsetYMax.Text = copy.OffsetMaximum.Y.ToString();
-
-            if (copy.RandomVelocity)
-            {
-                txtStartVelX.Text = copy.MinimumVelocity.X.ToString();
-                txtStartVelY.Text = copy.MinimumVelocity.Y.ToString();
-                txtMaxVelX.Text = copy.MaximumVelocity.X.ToString();
-                txtMaxVelY.Text = copy.MaximumVelocity.Y.ToString();
-                rdoVelRange.Checked = true;
-            }
-            else
-            {
-                txtStartVelX.Text = copy.MinimumVelocity.X.ToString();
-                txtStartVelY.Text = copy.MinimumVelocity.Y.ToString();
-                rdoStaticVel.Checked = true;
-            }
-
-            if (copy.RandomAccel)
-            {
-                txtStaticAccelX.Text = copy.MinimumAcceleration.X.ToString();
-                txtStaticAccelY.Text = copy.MinimumAcceleration.Y.ToString();
-                txtAccelRangeX.Text = copy.MaximumAcceleration.X.ToString();
-                txtAccelRangeY.Text = copy.MaximumAcceleration.Y.ToString();
-                rdoRangeAccel.Checked = true;
-            }
-            else
-            {
-                txtStaticAccelX.Text = copy.MinimumAcceleration.X.ToString();
-                txtStaticAccelY.Text = copy.MinimumAcceleration.Y.ToString();
-                rdoStaticAccel.Checked = true;
-            }
+            txtAlphaStart.Text = copy.StartAlpha.ToString();
+            txtEndAlpha.Text = copy.EndAlpha.ToString();
 
             txtRot.Text = copy.Rotation.ToString();
             txtDeltaRot.Text = copy.RotationSpeed.ToString();
             txtScale.Text = copy.Scale.ToString();
 
-            if (copy.RangeTTL)
-            {
-                txtMaxTTL.Text = copy.MaxTTL.ToString();
-                txtTTL.Text = copy.MinTTL.ToString();
-                rdoRangeTTL.Checked = true;
-            }
-            else
-            {
-                txtTTL.Text = copy.TTL.ToString();
-                rdoStaticTTL.Checked = true;
-            }
 
             txtTexturePath.Text = copy.TextureName;
 
@@ -91,8 +45,6 @@ namespace WinFormsContentLoading
             pctStartColor.BackColor = color;
             pctEndColor.BackColor = System.Drawing.Color.FromArgb(copy.EndColor.R, copy.EndColor.G, copy.EndColor.B);
 
-            if (copy.ColorInterpolation)
-                rdoColorLerp.Checked = true;
             EditedParticle = true;
 
         }
@@ -125,119 +77,14 @@ namespace WinFormsContentLoading
             }
         }
 
-        private void rdoColorLerp_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoColorLerp.Checked)
-            {
-                lblStaticColor.Visible = false;
-                btnStaticColor.Visible = false;
-
-                lblStartColor.Visible = true;
-                lblEndColor.Visible = true;
-                btnLerpColorEnd.Visible = true;
-                btnLerpColorStart.Visible = true;
-                //EndColor = new Microsoft.Xna.Framework.Color(-1, -1, -1);
-            }
-            else
-            {
-                lblStaticColor.Visible = true;
-                btnStaticColor.Visible = true;
-
-                lblStartColor.Visible = false;
-                lblEndColor.Visible = false;
-                btnLerpColorEnd.Visible = false;
-                btnLerpColorStart.Visible = false;
-            }
-        }
-
-        private void rdoStaticColor_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoColorLerp.Checked)
-            {
-                lblStaticColor.Visible = false;
-                btnStaticColor.Visible = false;
-
-                lblStartColor.Visible = true;
-                lblEndColor.Visible = true;
-                btnLerpColorEnd.Visible = true;
-                btnLerpColorStart.Visible = true;
-                //EndColor = new Microsoft.Xna.Framework.Color(-1, -1, -1);
-            }
-            else
-            {
-                lblStaticColor.Visible = true;
-                btnStaticColor.Visible = true;
-
-                lblStartColor.Visible = false;
-                lblEndColor.Visible = false;
-                btnLerpColorEnd.Visible = false;
-                btnLerpColorStart.Visible = false;
-            }
-        }
+        
 
         private void AddParticleDlg_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoStaticVel.Checked)
-            {
-                lblStartVelocity.Visible = true;
-                txtStartVelX.Visible = true;
-                txtStartVelX.Visible = true;
-
-                lblMaxVelocity.Visible = false;
-                txtMaxVelX.Visible = false;
-                txtMaxVelY.Visible = false;
-            }
-            else
-            {
-                lblStartVelocity.Visible = !true;
-                txtStartVelX.Visible = !true;
-                txtStartVelX.Visible = !true;
-
-                lblMaxVelocity.Visible = !false;
-                txtMaxVelX.Visible = !false;
-                txtMaxVelY.Visible = !false;
-                txtStartVelX.Visible = true;
-                txtStartVelY.Visible = true;
-                lblStartVelocity.Visible = true;
-            }
-        }
-
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoStaticVel.Checked)
-            {
-                lblStartVelocity.Visible = true;
-                txtStartVelX.Visible = true;
-                txtStartVelX.Visible = true;
-
-                lblMaxVelocity.Visible = false;
-                txtMaxVelX.Visible = false;
-                txtMaxVelY.Visible = false;
-            }
-            else
-            {
-                lblStartVelocity.Visible = !true;
-                txtStartVelX.Visible = !true;
-                txtStartVelX.Visible = !true;
-
-                lblMaxVelocity.Visible = !false;
-                txtMaxVelX.Visible = !false;
-                txtMaxVelY.Visible = !false;
-                txtStartVelX.Visible = true;
-                txtStartVelY.Visible = true;
-                lblStartVelocity.Visible = true;
-            }
-        }
+        
 
         private void txtTexturePath_TextChanged(object sender, EventArgs e)
         {
@@ -272,51 +119,15 @@ namespace WinFormsContentLoading
 
             Particle.Name = txtName.Text;
             Particle.Location = Vector2.Zero; /* This will be set before spawning by Emitter Location */
+
             
-            /* Static Velocity */
-            if (rdoStaticVel.Checked)
-            {
-                Particle.Velocity = new Vector2((float)Convert.ToDouble(txtStartVelX.Text), (float)Convert.ToDouble(txtStartVelY.Text));
-                Particle.RandomVelocity = false;
-            }
-            else
-            {
-                /* Otherwise particle will have its Velocity chosen between a range at creation time */
-                /* So we'll set the appropriate flag and set Min/Max values */
-                Particle.RandomVelocity = true;
-                Particle.MinimumVelocity = new Vector2((float)Convert.ToDouble(txtStartVelX.Text), (float)Convert.ToDouble(txtStartVelY.Text));
-                Particle.MaximumVelocity = new Vector2((float)Convert.ToDouble(txtMaxVelX.Text), (float)Convert.ToDouble(txtMaxVelY.Text));
-            }
-
-            /* Static Acceleration */
-            if (rdoStaticAccel.Checked)
-            {
-                Particle.Acceleration = new Vector2((float)Convert.ToDouble(txtStaticAccelX.Text), (float)Convert.ToDouble(txtStaticAccelY.Text));
-                Particle.RandomAccel = false;
-            }
-            else
-            {
-                Particle.RandomAccel = true;
-                Particle.MinimumAcceleration = new Vector2((float)Convert.ToDouble(txtStaticAccelX.Text), (float)Convert.ToDouble(txtStaticAccelY.Text));
-                Particle.MaximumAcceleration = new Vector2((float)Convert.ToDouble(txtAccelRangeX.Text), (float)Convert.ToDouble(txtAccelRangeY.Text));
-            }
-
-            /* Single Color */
-            if (rdoStaticColor.Checked)
-            {
-                Particle.EndColor = StartColor;
-                Particle.StartColor = StartColor;
-            }
-            else
-            {
-                Particle.StartColor = StartColor;
-                Particle.EndColor = EndColor;
-            }
-
+            Particle.StartColor = StartColor;
+            Particle.EndColor = EndColor;
+            
+            
             /* Alpha Start */
-            Particle.Alpha = (float)Convert.ToDouble(txtAlphaStart.Text);
-            /* Alpha Change */
-            Particle.AlphaChange = (float)Convert.ToDouble(txtAlphaChange.Text);
+            Particle.StartAlpha = (float)Convert.ToDouble(txtAlphaStart.Text);
+            Particle.EndAlpha = (float)Convert.ToDouble(txtEndAlpha.Text);
 
             /* Initial Rotation */
             Particle.Rotation = (float)Convert.ToDouble(txtRot.Text);
@@ -331,63 +142,17 @@ namespace WinFormsContentLoading
 
 
             /* Check to see if a ranged TTL is being used */
-            if (rdoRangeTTL.Checked)
-            {
-                Particle.MinTTL = Convert.ToInt32(txtTTL.Text);
-                Particle.MaxTTL = Convert.ToInt32(txtMaxTTL.Text);
-                Particle.RangeTTL = true;
-            }
-            else
-            {
-                Particle.TTL = Convert.ToInt32(txtTTL.Text);
-                //Particle._BaseTTL = Particle.TTL;
-                Particle.RangeTTL = false;
-            }
+            Particle.MinLife = (float)Convert.ToDouble(txtMinLife.Text);
+            Particle.MaxLife = (float)Convert.ToDouble(txtMaxLife.Text);
 
-            Particle.OffsetMaximum = new Vector2((float)Convert.ToDouble(txtOffsetXMax.Text), (float)Convert.ToDouble(txtOffsetYMax.Text));
-            Particle.OffsetMinimum = new Vector2((float)Convert.ToDouble(txtOffsetXMin.Text), (float)Convert.ToDouble(txtOffsetYMin.Text));
+            Particle.ScaleStart = (float)Convert.ToDouble(txtScale.Text);
+            Particle.ScaleEnd = (float)Convert.ToDouble(txtScaleEnd.Text);
 
             /* Texture Name */
             Particle.TextureName = txtTexturePath.Text;
             ParticleCreated = true;
             this.Close();
 
-        }
-
-        private void radioButton1_CheckedChanged_1(object sender, EventArgs e)
-        {
-            if (rdoStaticAccel.Checked)
-            {
-                /* Make the range stuff invisible */
-                txtAccelRangeX.Visible = false;
-                txtAccelRangeY.Visible = false;
-                lblMaxAccel.Visible = false;
-            }
-            else
-            {
-                /* Make it visible! */
-                txtAccelRangeX.Visible = true;
-                txtAccelRangeY.Visible = true;
-                lblMaxAccel.Visible = true;
-            }
-        }
-
-        private void radioButton2_CheckedChanged_1(object sender, EventArgs e)
-        {
-            if (rdoStaticAccel.Checked)
-            {
-                /* Make the range stuff invisible */
-                txtAccelRangeX.Visible = false;
-                txtAccelRangeY.Visible = false;
-                lblMaxAccel.Visible = false;
-            }
-            else
-            {
-                /* Make it visible! */
-                txtAccelRangeX.Visible = true;
-                txtAccelRangeY.Visible = true;
-                lblMaxAccel.Visible = true;
-            }
         }
 
         private void btnLerpColorStart_Click(object sender, EventArgs e)
@@ -413,35 +178,7 @@ namespace WinFormsContentLoading
         private Microsoft.Xna.Framework.Color StartColor;
         private Microsoft.Xna.Framework.Color EndColor;
 
-        private void radioButton1_CheckedChanged_2(object sender, EventArgs e)
-        {
-            if (rdoStaticTTL.Checked)
-            {
-                /* Hide range TTL */
-                lblMaxTTL.Visible = false;
-                txtMaxTTL.Visible = false;
-            }
-            else
-            {
-                lblMaxTTL.Visible = true;
-                txtMaxTTL.Visible = true;
-            }
-        }
-
-        private void rdoRangeTTL_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdoStaticTTL.Checked)
-            {
-                /* Hide range TTL */
-                lblMaxTTL.Visible = false;
-                txtMaxTTL.Visible = false;
-            }
-            else
-            {
-                lblMaxTTL.Visible = true;
-                txtMaxTTL.Visible = true;
-            }
-        }
+       
 
     }
 }
