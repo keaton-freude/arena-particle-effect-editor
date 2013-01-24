@@ -31,11 +31,15 @@ namespace WinFormsContentLoading
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alwaysOverwriteOldSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.youllNeedItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblFPSREAL = new System.Windows.Forms.Label();
             this.tabEffect1 = new System.Windows.Forms.TabPage();
             this.btnEmitterProperties = new System.Windows.Forms.Button();
@@ -67,7 +71,6 @@ namespace WinFormsContentLoading
             this.label2 = new System.Windows.Forms.Label();
             this.btnSetEmitter = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.label6 = new System.Windows.Forms.Label();
             this.lblParticlesActive = new System.Windows.Forms.Label();
             this.lblMaxParticles = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -75,8 +78,6 @@ namespace WinFormsContentLoading
             this.txtSystemName = new System.Windows.Forms.TextBox();
             this.btnUpdateName = new System.Windows.Forms.Button();
             this.modelViewerControl = new WinFormsContentLoading.ModelViewerControl();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.youllNeedItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabEffect1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -97,7 +98,7 @@ namespace WinFormsContentLoading
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1284, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1362, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -105,18 +106,12 @@ namespace WinFormsContentLoading
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem,
-            this.openFileToolStripMenuItem});
+            this.openFileToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuClicked);
             // 
             // openFileToolStripMenuItem
             // 
@@ -125,11 +120,26 @@ namespace WinFormsContentLoading
             this.openFileToolStripMenuItem.Text = "Open File";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuClicked);
+            // 
             // renderToolStripMenuItem
             // 
             this.renderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem,
-            this.addEffectToolStripMenuItem});
+            this.addEffectToolStripMenuItem,
+            this.alwaysOverwriteOldSystemToolStripMenuItem});
             this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
             this.renderToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.renderToolStripMenuItem.Text = "System";
@@ -137,15 +147,37 @@ namespace WinFormsContentLoading
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.testToolStripMenuItem.Text = "Go!";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // addEffectToolStripMenuItem
             // 
             this.addEffectToolStripMenuItem.Name = "addEffectToolStripMenuItem";
-            this.addEffectToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.addEffectToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.addEffectToolStripMenuItem.Text = "Add Effect";
+            // 
+            // alwaysOverwriteOldSystemToolStripMenuItem
+            // 
+            this.alwaysOverwriteOldSystemToolStripMenuItem.Name = "alwaysOverwriteOldSystemToolStripMenuItem";
+            this.alwaysOverwriteOldSystemToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.alwaysOverwriteOldSystemToolStripMenuItem.Text = "Always Overwrite Old System";
+            this.alwaysOverwriteOldSystemToolStripMenuItem.Click += new System.EventHandler(this.alwaysOverwriteOldSystemToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.youllNeedItToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // youllNeedItToolStripMenuItem
+            // 
+            this.youllNeedItToolStripMenuItem.Name = "youllNeedItToolStripMenuItem";
+            this.youllNeedItToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.youllNeedItToolStripMenuItem.Text = "You\'ll need it...";
+            this.youllNeedItToolStripMenuItem.Click += new System.EventHandler(this.youllNeedItToolStripMenuItem_Click);
             // 
             // lblFPSREAL
             // 
@@ -169,13 +201,13 @@ namespace WinFormsContentLoading
             this.tabEffect1.Location = new System.Drawing.Point(4, 22);
             this.tabEffect1.Name = "tabEffect1";
             this.tabEffect1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEffect1.Size = new System.Drawing.Size(358, 657);
+            this.tabEffect1.Size = new System.Drawing.Size(436, 632);
             this.tabEffect1.TabIndex = 0;
             this.tabEffect1.Text = "Effect 1";
             // 
             // btnEmitterProperties
             // 
-            this.btnEmitterProperties.Location = new System.Drawing.Point(248, 6);
+            this.btnEmitterProperties.Location = new System.Drawing.Point(250, 6);
             this.btnEmitterProperties.Name = "btnEmitterProperties";
             this.btnEmitterProperties.Size = new System.Drawing.Size(102, 36);
             this.btnEmitterProperties.TabIndex = 4;
@@ -487,22 +519,13 @@ namespace WinFormsContentLoading
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabEffect1);
-            this.tabControl1.Location = new System.Drawing.Point(918, 28);
+            this.tabControl1.Location = new System.Drawing.Point(918, 50);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(366, 683);
+            this.tabControl1.Size = new System.Drawing.Size(444, 658);
             this.tabControl1.TabIndex = 2;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.modelViewerControl_MouseClick);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 160);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "label6";
             // 
             // lblParticlesActive
             // 
@@ -565,7 +588,7 @@ namespace WinFormsContentLoading
             this.modelViewerControl.Location = new System.Drawing.Point(0, 50);
             this.modelViewerControl.Name = "modelViewerControl";
             this.modelViewerControl.Rendering = false;
-            this.modelViewerControl.Size = new System.Drawing.Size(912, 661);
+            this.modelViewerControl.Size = new System.Drawing.Size(940, 661);
             this.modelViewerControl.TabIndex = 1;
             this.modelViewerControl.Text = "modelViewerControl";
             this.modelViewerControl.Textures = null;
@@ -573,33 +596,17 @@ namespace WinFormsContentLoading
             this.modelViewerControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.modelViewerControl_MouseClick);
             this.modelViewerControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.modelViewerControl_MouseMove);
             // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.youllNeedItToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // youllNeedItToolStripMenuItem
-            // 
-            this.youllNeedItToolStripMenuItem.Name = "youllNeedItToolStripMenuItem";
-            this.youllNeedItToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.youllNeedItToolStripMenuItem.Text = "You\'ll need it...";
-            this.youllNeedItToolStripMenuItem.Click += new System.EventHandler(this.youllNeedItToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1284, 711);
+            this.ClientSize = new System.Drawing.Size(1362, 711);
             this.Controls.Add(this.btnUpdateName);
             this.Controls.Add(this.txtSystemName);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblMaxParticles);
             this.Controls.Add(this.lblParticlesActive);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.lblFPSREAL);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.modelViewerControl);
@@ -671,7 +678,6 @@ namespace WinFormsContentLoading
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnSetEmitter;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.Label label6;
         public System.Windows.Forms.Label lblParticlesActive;
         public System.Windows.Forms.Label lblMaxParticles;
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
@@ -681,6 +687,8 @@ namespace WinFormsContentLoading
         private System.Windows.Forms.Button btnUpdateName;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem youllNeedItToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem alwaysOverwriteOldSystemToolStripMenuItem;
 
     }
 }

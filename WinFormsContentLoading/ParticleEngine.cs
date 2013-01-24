@@ -24,7 +24,7 @@ namespace WinFormsContentLoading
             doc.Load(path);
 
             ParticleSystem new_system = new ParticleSystem();
-            new_system.name = doc.SelectSingleNode("ParticleSystem").Attributes["Name"].Value;
+            new_system.name = doc.SelectSingleNode("ParticleSystem").Attributes["Name"].InnerText;
             ParticleEffect effect_to_add = null;
             ParticleEmitter emitter_to_add = null;
             Particle particle_to_add = null;
@@ -162,6 +162,16 @@ namespace WinFormsContentLoading
                     effect_to_add.TexturePolling = texture_polling;
                     effect_to_add.Emitter = emitter_to_add;
                     new_system.effects.Add(effect_to_add);
+                }
+                else
+                {
+                    effect_to_add = new OneShotParticleEffect(textures, emitter_to_add);
+                    effect_to_add.MasterParticles = particles_to_add;
+                    effect_to_add.BlendingState = BlendState;
+                    effect_to_add.TexturePolling = texture_polling;
+                    effect_to_add.Emitter = emitter_to_add;
+                    new_system.effects.Add(effect_to_add);
+                  
                 }
                 
                 systems.Add(new_system.name, new_system);

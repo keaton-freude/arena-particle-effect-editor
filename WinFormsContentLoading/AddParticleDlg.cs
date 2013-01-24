@@ -35,7 +35,11 @@ namespace WinFormsContentLoading
 
             txtRot.Text = copy.Rotation.ToString();
             txtDeltaRot.Text = copy.RotationSpeed.ToString();
-            txtScale.Text = copy.Scale.ToString();
+            txtScale.Text = copy.ScaleStart.ToString();
+            txtScaleEnd.Text = copy.ScaleEnd.ToString();
+
+            txtMinLife.Text = copy.MinLife.ToString();
+            txtMaxLife.Text = copy.MaxLife.ToString();
 
 
             txtTexturePath.Text = copy.TextureName;
@@ -44,6 +48,11 @@ namespace WinFormsContentLoading
             color = System.Drawing.Color.FromArgb(copy.StartColor.R, copy.StartColor.G, copy.StartColor.B);
             pctStartColor.BackColor = color;
             pctEndColor.BackColor = System.Drawing.Color.FromArgb(copy.EndColor.R, copy.EndColor.G, copy.EndColor.B);
+            StartColor = copy.StartColor;
+            EndColor = copy.EndColor;
+
+
+
 
             EditedParticle = true;
 

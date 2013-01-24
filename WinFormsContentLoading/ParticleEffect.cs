@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Xml;
 
 namespace WinFormsContentLoading
 {
@@ -50,8 +51,10 @@ namespace WinFormsContentLoading
             set;
         }
 
-        public Particle GenerateNewParticle(float offset_x, float offset_y)
+        public Particle GenerateNewParticle(float offset_x, float offset_y, int p_count, int total_p)
         {
+            float percent = (float)p_count / (float)total_p;
+
             Texture2D texture = null;
             int ParticleID = -1;
             /* if we're doing random texture polling */
@@ -63,8 +66,10 @@ namespace WinFormsContentLoading
 
             Particle BaseParticle = MasterParticles[ParticleID];
 
+            Vector2 base_position = Vector2.Lerp(Emitter.LastLocation, Emitter.Location, percent);
 
-            Vector2 position = new Vector2(Emitter.Location.X + offset_x, Emitter.Location.Y + offset_y);
+
+            Vector2 position = new Vector2(base_position.X + offset_x, base_position.Y + offset_y);
 
             
 
@@ -139,6 +144,10 @@ namespace WinFormsContentLoading
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
+        {
+        }
+
+        public virtual void SaveToFile(XmlWriter writer)
         {
         }
     }

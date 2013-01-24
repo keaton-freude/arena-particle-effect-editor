@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ParticleSystem Name="FPSTestSystem">
+  <ParticleEffect Type="Continuous" TexturePolling="Random" BlendState="Alpha">
+    <ParticleEmitter>
+      <MaxParticles>100000</MaxParticles>
+      <MinVelocity X="-50" Y="-90"></MinVelocity>
+      <MaxVelocity X="50" Y="-120"></MaxVelocity>
+      <ParticlesPerUpdate>100</ParticlesPerUpdate>
+      <OffsetMin X="0" Y="0"></OffsetMin>
+      <OffsetMax X="0" Y="0"></OffsetMax>
+      <MinAccel X="0" Y="0"></MinAccel>
+      <MaxAccel X="0" Y="0"></MaxAccel>
+    </ParticleEmitter>
+    <Particle Name="SinglePixelParticle">
+      <StartColor R="255" G="255" B="255"></StartColor>
+      <EndColor R="255" G="255" B="255"></EndColor>
+      <StartAlpha>1.0</StartAlpha>
+      <EndAlpha>1.0</EndAlpha>
+      <Rotation>0.0</Rotation>
+      <RotationSpeed>0.0</RotationSpeed>
+      <ScaleStart>1.0</ScaleStart>
+      <ScaleEnd>1.0</ScaleEnd>
+      <Origin X="0" Y="0"></Origin>
+      <TextureName>pixel.png</TextureName>
+      <Life Min="20.0" Max="20.0"></Life>
+    </Particle>
+  </ParticleEffect>
+</ParticleSystem>

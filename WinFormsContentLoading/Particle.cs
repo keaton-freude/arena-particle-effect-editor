@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Xml;
 
 namespace WinFormsContentLoading
 {
@@ -172,6 +173,112 @@ namespace WinFormsContentLoading
 
             Color = Color.Lerp(StartColor, EndColor, 1.0f - (Life / StartingLife));
             Scale = MathHelper.Lerp(ScaleStart, ScaleEnd, 1.0f - (Life / StartingLife));
+        }
+        #endregion
+
+        #region Saving
+        public void SaveToFile(XmlWriter writer)
+        {
+            writer.WriteStartElement("Particle");
+            writer.WriteStartAttribute("Name");
+            writer.WriteValue(Name);
+            writer.WriteEndAttribute();
+            
+            /* Color*/
+            writer.WriteStartElement("StartColor");
+
+            writer.WriteStartAttribute("R");
+            writer.WriteValue(StartColor.R.ToString());
+            writer.WriteEndAttribute();
+
+            writer.WriteStartAttribute("G");
+            writer.WriteValue(StartColor.G.ToString());
+            writer.WriteEndAttribute();
+
+            writer.WriteStartAttribute("B");
+            writer.WriteValue(StartColor.B.ToString());
+            writer.WriteEndAttribute();
+
+            writer.WriteEndElement();
+
+            writer.WriteStartElement("EndColor");
+
+            writer.WriteStartAttribute("R");
+            writer.WriteValue(EndColor.R.ToString());
+            writer.WriteEndAttribute();
+
+            writer.WriteStartAttribute("G");
+            writer.WriteValue(EndColor.G.ToString());
+            writer.WriteEndAttribute();
+
+            writer.WriteStartAttribute("B");
+            writer.WriteValue(EndColor.B.ToString());
+            writer.WriteEndAttribute();
+
+            writer.WriteEndElement();
+
+            /* Start Alpha */
+
+            writer.WriteStartElement("StartAlpha");
+            writer.WriteValue(StartAlpha.ToString());
+            writer.WriteEndElement();
+
+            /* End ALpha */
+
+            writer.WriteStartElement("EndAlpha");
+            writer.WriteValue(EndAlpha.ToString());
+            writer.WriteEndElement();
+
+            /* Rotation */
+
+            writer.WriteStartElement("Rotation");
+            writer.WriteValue(Rotation.ToString());
+            writer.WriteEndElement();
+
+            /* RotationSpeed */
+
+            writer.WriteStartElement("RotationSpeed");
+            writer.WriteValue(RotationSpeed.ToString());
+            writer.WriteEndElement();
+
+            /* Scale Start */
+
+            writer.WriteStartElement("ScaleStart");
+            writer.WriteValue(ScaleStart.ToString());
+            writer.WriteEndElement();
+
+            /* Scale End */
+            writer.WriteStartElement("ScaleEnd");
+            writer.WriteValue(ScaleEnd.ToString());
+            writer.WriteEndElement();
+
+            /* Origin */
+            writer.WriteStartElement("Origin");
+            writer.WriteStartAttribute("X");
+            writer.WriteValue(Origin.X.ToString());
+            writer.WriteEndAttribute();
+            writer.WriteStartAttribute("Y");
+            writer.WriteValue(Origin.Y.ToString());
+            writer.WriteEndAttribute();
+            writer.WriteEndElement();
+
+            /* Texture Name */
+            writer.WriteStartElement("TextureName");
+            writer.WriteValue(TextureName);
+            writer.WriteEndElement();
+
+            /* Life */
+            writer.WriteStartElement("Life");
+            writer.WriteStartAttribute("Min");
+            writer.WriteValue(MinLife.ToString());
+            writer.WriteEndAttribute();
+            writer.WriteStartAttribute("Max");
+            writer.WriteValue(MaxLife.ToString());
+            writer.WriteEndAttribute();
+            writer.WriteEndElement();
+
+            writer.WriteEndElement();
+
         }
         #endregion
     }

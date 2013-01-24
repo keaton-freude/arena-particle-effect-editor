@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Xml;
 
 namespace WinFormsContentLoading
 {
@@ -45,10 +46,27 @@ namespace WinFormsContentLoading
                 /* Generate new Particles for this frame */
                 /* This is more of a "wind-up" function, shouldn't be called once
                  * we're at max capacity */
+
+                int particle_budget = Emitter.MaxParticles - particles.Count;
+                int particles_this_update = 0;
+                if (particle_budget - Emitter.ParticlesPerUpdate < 0)
+                {
+                    particles_this_update = Emitter.ParticlesPerUpdate - (Emitter.ParticlesPerUpdate - particle_budget);
+                }
+                else
+                    particles_this_update = Emitter.ParticlesPerUpdate;
+
+
                 for (int i = 0; i < Emitter.ParticlesPerUpdate; ++i)
                 {
+                    /* How many particles CAN we add? */
+
+                    
+
                     if (particles.Count < Emitter.MaxParticles)
-                        particles.Add(base.GenerateNewParticle(0, 0));
+                        particles.Add(base.GenerateNewParticle(0, 0, i+1, particles_this_update));
+                    else
+                        break;
                 }
                 
 
@@ -70,6 +88,29 @@ namespace WinFormsContentLoading
                 spriteBatch.End();
                 
             }
+        }
+
+        public override void SaveToFile(XmlWriter writer)
+        {
+            writer.WriteStartElement("ParticleEffect");
+            writer.WriteStartAttribute("Type");
+            writer.WriteValue("Continuous");
+            writer.WriteEndAttribute();
+            writer.WriteStartAttribute("TexturePolling");
+            writer.WriteValue(TexturePolling);
+            writer.WriteEndAttribute();
+            writer.WriteStartAttribute("BlendState");
+            writer.WriteValue(BlendingState);
+            writer.WriteEndAttribute();
+
+            Emitter.WriteToFile(writer);
+
+            foreach (Particle p in MasterParticles)
+            {
+                p.SaveToFile(writer);
+            }
+
+            writer.WriteEndElement();
         }
     }
 }

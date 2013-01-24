@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Xml;
 
 namespace WinFormsContentLoading
 {
@@ -14,6 +15,12 @@ namespace WinFormsContentLoading
 
         public ParticleSystem()
         {
+            effects = new List<ParticleEffect>();
+        }
+
+        public ParticleSystem(String name)
+        {
+            this.name = name;
             effects = new List<ParticleEffect>();
         }
 
@@ -38,6 +45,24 @@ namespace WinFormsContentLoading
             }
         }
 
-        
+        public void SaveToFile(XmlWriter writer)
+        {
+            writer.WriteStartDocument();
+
+            writer.WriteStartElement("ParticleSystem");
+            writer.WriteStartAttribute("Name");
+            writer.WriteValue(name);
+            writer.WriteEndAttribute();
+
+            foreach (ParticleEffect effect in effects)
+            {
+                effect.SaveToFile(writer);
+            }
+
+            writer.WriteEndElement();
+
+            /* Finish the document out */
+            writer.WriteEndDocument();
+        }
     }
 }

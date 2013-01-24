@@ -168,12 +168,14 @@ namespace WinFormsContentLoading
                 State = "None";
                 btnSetEmitter.Enabled = true;
                 btnSetEmitter.Text = "Set Emitter Location";
-                modelViewerControl.EmitterMarker = LoadTexture("EmitterMarker1.bmp");
+                modelViewerControl.EmitterMarker = LoadTexture("EmitterMarker.bmp");
                 if (emitter == null)
                     emitter = new ParticleEmitter();
-                else
+                //else
+                //{
                     emitter.Location = new Microsoft.Xna.Framework.Vector2(e.X, e.Y);
-               
+                    emitter.LastLocation = emitter.Location;
+                //}
             }
         }
 
@@ -184,7 +186,10 @@ namespace WinFormsContentLoading
 
             /* Store Particle in List */
             if (dlg.ParticleCreated)
+            {
+                dlg.Particle.Texture = LoadTexture(dlg.Particle.TextureName);
                 lstParticles.Items.Add(dlg.Particle);
+            }
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -318,7 +323,11 @@ namespace WinFormsContentLoading
                 dlg.ShowDialog();
 
                 if (dlg.EditedParticle)
+                {
+                    dlg.Particle.Texture = LoadTexture(dlg.Particle.TextureName);
                     lstParticles.Items[lstParticles.SelectedIndex] = dlg.Particle;
+                    
+                }
             }
         }
 
@@ -373,7 +382,7 @@ namespace WinFormsContentLoading
             else
                 dlg = new EmitterPropertiesDlg(emitter);
 
-            dlg.Show();
+            dlg.ShowDialog();
 
             if (dlg.State == "New")
             {
@@ -384,6 +393,7 @@ namespace WinFormsContentLoading
             {
                 emitter = dlg.BuiltEmitter;
                 emitter.Location = modelViewerControl.EmitterLocation;
+                emitter.LastLocation = emitter.Location;
             }
 
 
@@ -396,86 +406,15 @@ namespace WinFormsContentLoading
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ///* GO! */
-            ///* Create the effect */
-
-            ///* Create the list of textures according to our listbox */
-
-            ///* We only test one at a time, we'll kill the ParticleENgine effects list each time */
-            //ParticleEngine.Instance.systems.Clear();
-            //ParticleEngine.Instance.systems.Add("Test", new ParticleSystem());
-
-            //String TexturePolling = "";
-
-            //if (rdoRandomPolling.Checked)
-            //    TexturePolling = "Random";
-            //else
-            //    TexturePolling = "RoundRobin";
-
-            //List<Texture2D> textures = new List<Texture2D>();
-            //foreach (Particle p in lstParticles.Items)
-            //{
-            //    textures.Add(LoadTexture(p.TextureName));
-            //}
-
-            //List<Particle> masterParticles = new List<Particle>();
-            //foreach (Particle p in lstParticles.Items)
-            //{
-            //    masterParticles.Add(p);
-            //}
-            //emitter.InitialRot = emitter_rot;
-            ///* If we're doing one shot we'll handle it here */
-
-            //if (rdoOneShot.Checked)
-            //{
-                
-            //    OneShotParticleEffect one_shot_effect = new OneShotParticleEffect(textures, emitter);
-            //    one_shot_effect.MasterParticles = masterParticles;
-            //    if (rdoAlphaBlending.Checked)
-            //    {
-            //        one_shot_effect.BlendingState = "Alpha";
-            //    }
-            //    else if (rdoAdditiveBlending.Checked)
-            //    {
-            //        one_shot_effect.BlendingState = "Additive";
-            //    }
-            //    one_shot_effect.TexturePolling = TexturePolling;
-            //    one_shot_effect.Emitter = emitter;
-
-            //    one_shot_effect.Iterations = Convert.ToInt32(txtIterations.Text);
-            //    one_shot_effect.CircleRadius = (float)Convert.ToDouble(txtRadius.Text);
-
-            //    ParticleEngine.Instance.systems["Test"].effects.Add(one_shot_effect);
-            //    ((OneShotParticleEffect)ParticleEngine.Instance.systems["Test"].effects[0]).Fire();
-            //    modelViewerControl.Rendering = true;
-            //}
-            //else
-            //{
-            //    ContinuousParticleEffect continuous_effect = new ContinuousParticleEffect(textures, emitter);
-            //    continuous_effect.MasterParticles = masterParticles;
-            //    if (rdoAlphaBlending.Checked)
-            //    {
-            //        continuous_effect.BlendingState = "Alpha";
-            //    }
-            //    else if (rdoAdditiveBlending.Checked)
-            //    {
-            //        continuous_effect.BlendingState = "Additive";
-            //    }
-            //    continuous_effect.TexturePolling = TexturePolling;
-            //    continuous_effect.Emitter = emitter;
-
-            //    ParticleEngine.Instance.systems["Test"].effects.Add(continuous_effect);
-            //    ((ContinuousParticleEffect)ParticleEngine.Instance.systems["Test"].effects[0]).Generating = true;
-            //    modelViewerControl.Rendering = true;
-            //}
-
             /* Check to see if there's an effect already loaded into the particle engine */
+            
             if (ParticleEngine.Instance.systems.Count != 0)
             {
                 /* Okay we got a system already in place */
                 /* Ask user if we want to load a fresh one from the currently selected items
                  * or if he'd like to test what's currently loaded */
-                if (MessageBox.Show("Yo! You already got a system loaded. Do you want to discard that system and build another based"
+                modelViewerControl.Rendering = false;
+                if (overwrite || MessageBox.Show("Yo! You already got a system loaded. Do you want to discard that system and build another based"
                     + " on current parameters? WARNING: Doing so will discard all changes" 
                     + "that have not been saved to the currently loaded system", "System already loaded", MessageBoxButtons.YesNo, 
                     MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
@@ -484,7 +423,12 @@ namespace WinFormsContentLoading
 
                     /* NOTE: ASSUMING CONTINUOUS FIX THIS BEFORE LAUNCH LOL */
                     ParticleEngine.Instance.systems[CurrentSystemName].effects[0].Emitter.Location = emitter.Location;
-                    ((ContinuousParticleEffect)ParticleEngine.Instance.systems[CurrentSystemName].effects[0]).Generating = true;
+                    /* If continuous */
+                    if (ParticleEngine.Instance.systems[CurrentSystemName].effects[0].GetType().ToString().Split('.').Last() == "ContinuousParticleEffect")
+                        ((ContinuousParticleEffect)ParticleEngine.Instance.systems[CurrentSystemName].effects[0]).Generating = true;
+                    else
+                        ((OneShotParticleEffect)ParticleEngine.Instance.systems[CurrentSystemName].effects[0]).Fire();
+
                     modelViewerControl.Rendering = true;
                 }
                 else
@@ -504,7 +448,7 @@ namespace WinFormsContentLoading
         {
             CurrentSystemName = txtSystemName.Text;
             ParticleEngine.Instance.systems.Clear();
-            ParticleEngine.Instance.systems.Add(CurrentSystemName, new ParticleSystem());
+            ParticleEngine.Instance.systems.Add(CurrentSystemName, new ParticleSystem(CurrentSystemName));
 
             String TexturePolling = "";
 
@@ -516,7 +460,7 @@ namespace WinFormsContentLoading
             List<Texture2D> textures = new List<Texture2D>();
             foreach (Particle p in lstParticles.Items)
             {
-                textures.Add(LoadTexture(p.TextureName));
+                textures.Add(p.Texture);
             }
 
             List<Particle> masterParticles = new List<Particle>();
@@ -525,6 +469,7 @@ namespace WinFormsContentLoading
                 masterParticles.Add(p);
             }
             emitter.InitialRot = emitter_rot;
+            
             /* If we're doing one shot we'll handle it here */
 
             if (rdoOneShot.Checked)
@@ -601,10 +546,26 @@ namespace WinFormsContentLoading
 
                 if (system_name != "Fail")
                 {
+                    Vector2 temp_location = Vector2.Zero;
+                    if (emitter != null)
+                        temp_location = emitter.Location;
+                    
                     emitter = ParticleEngine.Instance.systems[system_name].effects[0].Emitter;
+                    emitter.Location = temp_location;
+                    emitter.LastLocation = temp_location;
+                    if (ParticleEngine.Instance.systems[system_name].effects[0].TexturePolling == "Random")
+                    {
+                        rdoRandomPolling.Checked = true;
+                    }
+                    else
+                        rdoRoundRobin.Checked = true;
+                    
+                    
+                    
                     lstParticles.Items.Clear();
                     foreach (Particle p in ParticleEngine.Instance.systems[system_name].effects[0].MasterParticles)
                     {
+                        p.Texture = LoadTexture(p.TextureName);
                         lstParticles.Items.Add(p);
                     }
 
@@ -623,6 +584,7 @@ namespace WinFormsContentLoading
                         rdoAdditiveBlending.Checked = true;
 
                     CurrentSystemName = system_name;
+
                 }
             }
         }
@@ -633,7 +595,28 @@ namespace WinFormsContentLoading
                 " came in the installation directory of this program called ReadMePlease.txt in order to learn how to use this little thing");
         }
 
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /* Save the currently loaded system to file */
 
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                using (System.Xml.XmlWriter writer = System.Xml.XmlWriter.Create(dlg.FileName))
+                {
+                    ParticleEngine.Instance.systems[CurrentSystemName].SaveToFile(writer);
+                }
+            }
+        }
+
+        private void alwaysOverwriteOldSystemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            overwrite = !overwrite;
+            alwaysOverwriteOldSystemToolStripMenuItem.Checked = overwrite;
+        }
+
+        private bool overwrite = false;
        
     }
 }
